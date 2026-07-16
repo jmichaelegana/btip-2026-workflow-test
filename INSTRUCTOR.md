@@ -113,7 +113,8 @@ pixi run nextflow run nextflow/main.nf -profile slurm             # HPC/SLURM (C
 | Bash hands-on (slide #7) | 15 min | 0:10-0:25 | Walk the room. Help stuck interns. Don't fix everything — the "pain" is intentional. |
 | Bash discussion (slide #8) | 5 min | 0:25-0:30 | "What was hard?" Let THEM articulate pain points before you show the next slide. |
 | Snakemake reveal (slides #9-11) | 20 min | 0:30-0:50 | Show dry-run first. Then DAG. Then full run. The `--dag` visualization = the "wow." |
-| Nextflow reveal (slides #12-15) | 20 min | 0:50-1:10 | Start with `-resume` demo (ctrl-c, re-run). Channels are abstract; resume is concrete. Slide #15 (SLURM) is aspirational — show config, explain the concept. |
+| Nextflow reveal (slides #12-14) | 18 min | 0:50-1:08 | Start with `-resume` demo (ctrl-c, re-run). Channels are abstract; resume is concrete. |
+| Bonus: HPC/SLURM (slide #15) | 2 min | 1:08-1:10 | Quick bonus. "I know Nextflow best. Snakemake does this too." Show the config, move on. |
 | Compare + close (slides #16-20) | 10 min | 1:10-1:20 | Side-by-side table (includes HPC row). Triad callback. Exit ticket link. |
 | Buffer | 10 min | 1:20-1:30 | Overflow Q&A. Help lingering interns. |
 
@@ -126,7 +127,7 @@ pixi run nextflow run nextflow/main.nf -profile slurm             # HPC/SLURM (C
 | **Snakemake resume** | Start run → `ps aux \| grep spades` → kill PID → `pixi run snakemake --rerun-incomplete` | "It only redoes what failed. No wasted computation." |
 | **Nextflow resume** | `pixi run nextflow run -profile local` → Ctrl-C → `pixi run nextflow run -profile local -resume` | "Green checkmarks = cached. It picks up exactly where it stopped." |
 | **Nextflow reports** | Open `results/nextflow/dag.svg` | "Nextflow generates reports automatically — DAG, timeline, execution report." |
-| **Nextflow SLURM** | Show `nextflow.config` slurm profile | "Same pipeline, same code. One profile change = it submits to the cluster. Bash cannot do this at all." |
+| **Nextflow SLURM** (bonus) | Show `nextflow.config` slurm profile | "I'm more comfortable with Nextflow. Snakemake does this too with `--cluster`. Both work." |
 
 ### Common Student Confusion Points
 

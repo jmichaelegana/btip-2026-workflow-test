@@ -1,0 +1,55 @@
+configfile: "snakemake/config.yaml"
+
+QC_VALUES = config["qc_values"]
+KMER_VALUES = config["kmer_values"]
+READS_DIR = config["reads_dir"]
+OUTDIR = config["output_dir"]
+
+rule all:
+    input:
+        expand(
+            f"{OUTDIR}/q{{qc}}_k{{k}}/quast/report.tsv",
+            qc=QC_VALUES, k=KMER_VALUES,
+        )
+
+rule trim:
+    output:
+        r1=f"{OUTDIR}/q{{qc}}_k{{k}}/trimmed_R1.fastq.gz",
+        r2=f"{OUTDIR}/q{{qc}}_k{{k}}/trimmed_R2.fastq.gz",
+        json=f"{OUTDIR}/q{{qc}}_k{{k}}/fastp.json",
+    params:
+        qc=lambda wc: wc.qc,
+    input:
+        r1=f"{READS_DIR}/sample_R1.fastq.gz",
+        r2=f"{READS_DIR}/sample_R2.fastq.gz",
+    shell:
+        "fastp -i {input.r1} -I {input.r2} "
+        "-o {output.r1} -O {output.r2} "
+        "-q {params.qc} --json {output.json} "
+        "--html {output.json}.html --thread 1"
+
+rule assemble:
+    output:
+        contigs=f"{OUTDIR}/q{{qc}}_k{{k}}/spades/contigs.fasta",
+    params:
+        k=lambda wc: wc.k,
+        outdir=lambda wc: f"{OUTDIR}/q{{wc.qc}}_k{{wc.k}}/spades",
+    input:
+        r1=f"{OUTDIR}/q{{qc}}_k{{k}}/trimmed_R1.fastq.gz",
+        r2=f"{OUTDIR}/q{{qc}}_k{{k}}/trimmed_R2.fastq.gz",
+    shell:
+        "spades.py --isolate "
+        "-1 {input.r1} -2 {input.r2} "
+        "-k {params.k} -o {params.outdir} "
+        "--threads 2"
+
+rule evaluate:
+    output:
+        report=f"{OUTDIR}/q{{qc}}_k{{k}}/quast/report.tsv",
+    params:
+        outdir=lambda wc: f"{OUTDIR}/q{{wc.qc}}_k{{wc.k}}/quast",
+    input:
+        contigs=f"{OUTDIR}/q{{qc}}_k{{k}}/spades/contigs.fasta",
+    shell:
+        "quast {input.contigs} "
+        "-o {params.outdir} --threads 2"

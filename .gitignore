@@ -1,0 +1,9 @@
+results/
+data/reads/ecoli_k12.fna.gz
+deck/main.pdf
+__pycache__/
+*.pyc
+.pixi/
+work/
+.nextflow*
+.nextflow.log*

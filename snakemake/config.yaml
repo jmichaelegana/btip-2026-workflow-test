@@ -1,0 +1,4 @@
+qc_values: [15, 20, 30]
+kmer_values: [21, 33, 55]
+reads_dir: "data/reads"
+output_dir: "results/snakemake"

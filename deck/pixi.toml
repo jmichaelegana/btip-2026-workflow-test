@@ -1,0 +1,13 @@
+[workspace]
+authors = ["John Michael Egana <johnmichael.egana@protonmail.com>"]
+channels = ["conda-forge"]
+name = "btip-workflow-managers-deck"
+description = "BTIP 2026 Workflow Orchestration Managers Random Talk deck"
+platforms = ["osx-arm64"]
+version = "0.1.0"
+
+[tasks]
+build = "typst compile --root . main.typ main.pdf"
+watch = "typst watch --root . main.typ main.pdf"
+
+[dependencies]

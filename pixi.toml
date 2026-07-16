@@ -1,0 +1,21 @@
+[workspace]
+authors = ["John Michael Egana <johnmichael.egana@protonmail.com>"]
+channels = ["conda-forge", "bioconda"]
+name = "btip-workflow-managers-demo"
+description = "BTIP 2026 Random Talk — Workflow Orchestration Managers hands-on demo"
+platforms = ["osx-arm64", "osx-64", "linux-64"]
+version = "0.1.0"
+
+[tasks]
+run-bash = "bash bash/pipeline.sh"
+run-snakemake = "snakemake -s snakemake/Snakefile --cores 4"
+run-snakemake-dry = "snakemake -s snakemake/Snakefile --cores 4 --dry-run"
+run-nextflow = "nextflow run nextflow/main.nf -profile local"
+download-data = "bash scripts/download_data.sh"
+
+[dependencies]
+fastp = ">=0.24.0,<1"
+spades = ">=4.0.0,<5"
+quast = ">=5.2.0,<6"
+snakemake-minimal = ">=8.0.0,<9"
+nextflow = ">=24.0.0,<25"

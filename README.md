@@ -4,11 +4,29 @@
 > **Session:** Hands-on demo — bash vs Snakemake vs Nextflow  
 > **Repo:** Clone → `pixi install` → run
 
+## Prerequisites
+
+**Install pixi first** — the package manager that fetches all demo tools (fastp, spades, quast, snakemake, nextflow, graphviz):
+
+```bash
+# Linux / macOS
+curl -fsSL https://pixi.sh/install.sh | bash
+
+# Restart your shell or run:
+source ~/.bashrc
+```
+
+Verify it works:
+
+```bash
+pixi --version
+```
+
 ## Setup
 
 ```bash
 git clone <this-repo>
-cd up-pgc-btip-workflow-managers
+cd btip-2026-workflow-test
 pixi install
 ```
 

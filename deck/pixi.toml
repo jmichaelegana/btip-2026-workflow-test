@@ -3,7 +3,7 @@ authors = ["John Michael Egana <johnmichael.egana@protonmail.com>"]
 channels = ["conda-forge"]
 name = "btip-workflow-managers-deck"
 description = "BTIP 2026 Workflow Orchestration Managers Random Talk deck"
-platforms = ["osx-arm64"]
+platforms = ["osx-arm64", "osx-64", "linux-64"]
 version = "0.1.0"
 
 [tasks]

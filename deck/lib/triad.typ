@@ -1,5 +1,8 @@
 // The Bioinfo Statistical Triad — reusable diagram for BTIP lecture decks.
 // Originally from up-pgc-btip-bioinfo-algo-lec/deck/main.typ
+
+#import "@preview/cetz:0.5.2" as cetz
+
 // Parameters:
 //   feedback: show stats→algo feedback loop
 //   design:   show upstream design constraint

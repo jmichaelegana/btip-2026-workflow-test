@@ -1,5 +1,19 @@
 # Instructor Notes — BTIP Workflow Orchestration Managers
 
+## How to Frame This Session
+
+The interns are in their final 2 weeks — they've been running fastp, spades, and quast for several weeks and are starting to write up results. Use this framing:
+
+1. **Start with what they already know:** "You've all run fastp. You've run spades. You've run quast. You know these tools individually."
+
+2. **Name the pain point:** "Now you're writing up your results for a manuscript. How do you document all the parameter sweeps you ran? If a reviewer asks you to vary k-mer size from 21 to 33 to 55 — can they reproduce your analysis?"
+
+3. **Pitch the solution:** "This session is about turning your ad-hoc tool runs into a publication-ready, reproducible workflow. A single repo that anyone can clone and re-run — bash, Snakemake, or Nextflow."
+
+4. **Bridge to prior talks:** "Glee covered Git basics. Today we pick up where that left off — making your pipeline code version-controlled and reproducible at scale."
+
+5. **Stay objective:** Don't oversell. "Pick the right tool for your project. Bash for quick checks. Snakemake or Nextflow for anything you'd put in a paper. The concepts transfer."
+
 ## Before the Session
 
 ### 1. Test the Demo End-to-End (Day Before)

@@ -1,7 +1,8 @@
 # BTIP Random Talk — Workflow Orchestration Managers
 
 > **Date:** July 16, 2026  
-> **Session:** Hands-on demo — bash vs Snakemake vs Nextflow  
+> **Audience:** BTIP interns in the final 2 weeks — preparing results for publication  
+> **Why this talk:** You've run fastp, spades, and quast one-by-one. Now learn how to orchestrate them into a reproducible, publishable workflow repo.  
 > **Repo:** Clone → `pixi install` → run
 
 ## Prerequisites

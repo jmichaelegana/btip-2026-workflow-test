@@ -77,7 +77,15 @@
 
 == By the end of this session, you will be able to:
 
-#v(0.5em)
+#v(0.3em)
+
+#text(size: 0.72em, fill: ink, style: "italic")[
+  You've run fastp, spades, and quast individually over the past weeks. \
+  Now you're in the final stretch — preparing results for publication. \
+  How do you package a multi-parameter analysis into a single repo that anyone can clone, reproduce, and cite?
+]
+
+#v(0.7em)
 
 #grid(columns: (auto, 1fr), column-gutter: 0.6em, row-gutter: 0.5em,
   text(size: 0.85em, weight: "bold", fill: pgc-purple)[1.],
@@ -122,7 +130,7 @@
 #v(0.6em)
 
 #text(size: 0.82em, fill: accent-gold)[
-  → That's 9 assemblies. 9 QUAST runs. 9 sets of output to compare.
+  → That's 9 assemblies. 9 QUAST runs. 9 sets of output to compare — and your manuscript needs all of them documented and reproducible.
 ]
 
 #v(0.8em)

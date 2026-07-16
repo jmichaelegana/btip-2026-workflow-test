@@ -217,15 +217,20 @@
 
 #v(0.8em)
 
-#takeaway[
-  Let's start with bash — the simplest tool, and the first to break.
+#block(inset: 0.5em, radius: 4pt, fill: pgc-purple-light, stroke: pgc-purple + 0.8pt)[
+  #text(size: 0.82em, weight: "bold", fill: pgc-purple)[Now, everyone:]\
+  #v(0.2em)
+  #text(size: 0.78em, fill: ink, font: "Source Code Pro")[pixi shell]\
+  #v(0.3em)
+  #text(size: 0.72em, fill: ink)[This activates all tools (fastp, spades, quast, snakemake, nextflow). \
+  All commands below now work without a prefix — you're inside pixi's environment. \
+  Type `exit` when you're done.]
 ]
 
-#v(0.5em)
+#v(0.6em)
 
-#text(size: 0.67em, fill: accent-gold)[
-  #text(weight: "bold")[pixi install] may take 5-10 min first time — that's normal. \
-  All commands need `pixi run` prefix — tools are in pixi's environment, not system PATH.
+#takeaway[
+  Let's start with bash — the simplest tool, and the first to break.
 ]
 
 
@@ -379,7 +384,7 @@ rule assemble:
 #v(0.4em)
 
 #text(size: 0.80em, fill: accent-gold)[
-  `snakemake -s snakemake/Snakefile --cores 4 --dry-run`
+  `snakemake -s snakemake/Snakefile --cores 2 --dry-run`
 ]
 
 #text(size: 0.80em, fill: accent-gold)[
@@ -396,7 +401,7 @@ rule assemble:
 #v(0.5em)
 
 #text(size: 0.82em, fill: accent-gold)[
-  `snakemake -s snakemake/Snakefile --dag | dot -Tpng > dag.png`
+  `snakemake -s snakemake/Snakefile --dag | dot -Tpng -o dag.png`
 ]
 
 #v(0.6em)
@@ -425,7 +430,7 @@ rule assemble:
 
 #block(inset: 0.5em, radius: 4pt, fill: rgb("#f4f4f4"), stroke: ink.lighten(50%) + 0.5pt)[
   #text(size: 0.78em, fill: ink, font: "Source Code Pro")[
-    `snakemake -s snakemake/Snakefile --cores 4 --rerun-incomplete`
+    `snakemake -s snakemake/Snakefile --cores 2 --rerun-incomplete`
   ]
 ]
 

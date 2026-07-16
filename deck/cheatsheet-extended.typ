@@ -11,20 +11,33 @@
 
 #v(6pt)
 
+// ===== FIRST =====
+#text(size: 9pt, weight: "bold", fill: rgb("#6A0DAD"))[First — activate pixi]
+#v(2pt)
+#set text(size: 7pt)
+```bash
+pixi shell          # opens sub-shell with all tools on PATH
+exit                # leave the sub-shell when done
+```
+#v(1pt)
+#text(size: 6.5pt, fill: rgb("#999999"))[All commands below assume you've run `pixi shell` first. Without it, prefix with `pixi run` — e.g. `pixi run snakemake -s ...`]
+
+#v(8pt)
+
 // ===== BASH =====
 #text(size: 9pt, weight: "bold", fill: rgb("#CC5500"))[Bash — Manual Loop]
 #v(2pt)
 #set text(size: 7pt)
 ```bash
 # single combo (qc=20, k=33) — ~60 seconds
-pixi run bash bash/pipeline.sh 20 33
+bash bash/pipeline.sh 20 33
 
 # all 9 combos (serial, ~9 min) — no parallelism, no resume
-pixi run bash -c 'for q in 15 20 25; do
+for q in 15 20 25; do
   for k in 21 33 55; do
     bash bash/pipeline.sh $q $k
   done
-done'
+done
 
 # results land in results/bash/q{value}_k{value}/
 ```
@@ -40,19 +53,19 @@ done'
 #set text(size: 7pt)
 ```bash
 # preview the DAG (28 jobs: 1 count + 9 trim + 9 assemble + 9 evaluate)
-pixi run snakemake -s snakemake/Snakefile --cores 2 --dry-run
+snakemake -s snakemake/Snakefile --cores 2 --dry-run
 
 # full run (~3-5 min, parallel where possible)
-pixi run snakemake -s snakemake/Snakefile --cores 2
+snakemake -s snakemake/Snakefile --cores 2
 
 # resume after failure (only re-runs broken/incomplete jobs)
-pixi run snakemake -s snakemake/Snakefile --cores 2 --rerun-incomplete
+snakemake -s snakemake/Snakefile --cores 2 --rerun-incomplete
 
 # DAG visualization (pipe through graphviz dot)
-pixi run snakemake -s snakemake/Snakefile --dag | pixi run dot -Tpng > dag.png
+snakemake -s snakemake/Snakefile --dag | dot -Tpng -o dag.png
 
 # re-run all of one rule (if you change a parameter)
-pixi run snakemake -s snakemake/Snakefile --cores 2 -R assemble
+snakemake -s snakemake/Snakefile --cores 2 -R assemble
 
 # results land in results/snakemake/q{value}_k{value}/
 ```
@@ -68,16 +81,16 @@ pixi run snakemake -s snakemake/Snakefile --cores 2 -R assemble
 #set text(size: 7pt)
 ```bash
 # full run on your laptop (~3-5 min, 27 jobs)
-pixi run nextflow run nextflow/main.nf -profile local
+nextflow run nextflow/main.nf -profile local
 
 # resume after interruption (hash-based — survives crashes and reboots)
-pixi run nextflow run nextflow/main.nf -profile local -resume
+nextflow run nextflow/main.nf -profile local -resume
 
 # HPC cluster run (CFB cluster, BTIP reservation)
-pixi run nextflow run nextflow/main.nf -profile slurm
+nextflow run nextflow/main.nf -profile slurm
 
 # change parameters from the command line
-pixi run nextflow run nextflow/main.nf -profile local \
+nextflow run nextflow/main.nf -profile local \
   --qc_values "[15,20,25]" --kmer_values "[21,33,55]"
 
 # reports auto-generated in results/nextflow/
@@ -90,7 +103,7 @@ pixi run nextflow run nextflow/main.nf -profile local \
 #v(8pt)
 
 // ===== SETUP & DECK =====
-#text(size: 9pt, weight: "bold", fill: rgb("#333333"))[Setup, Deck & DAGs]
+#text(size: 9pt, weight: "bold", fill: rgb("#333333"))[Setup, Deck & DAGs (before pixi shell)]
 #v(2pt)
 #set text(size: 7pt)
 ```bash
@@ -113,11 +126,10 @@ pixi run dag-slide                 # pre-gen DAG for slide presentation
 #set text(size: 7pt)
 ```bash
 # extract N50 from all QUAST reports
-pixi run bash -c '
-for d in results/snakemake/q*_k*/quast; do
-  echo -n "$d: "
-  grep "N50" "$d/report.tsv" | head -1
-done'
+find results -name "report.tsv" | while read f; do
+  n50=$(grep "N50" "$f" | head -1)
+  echo "$f: $n50"
+done
 
 # compare across tools (bash result names may differ)
 ls results/bash/q20_k33/quast/report.tsv
@@ -202,8 +214,8 @@ ls results/nextflow/q20_k33/quast/report.tsv
 - *QuAST fails with "cannot parse":* Empty contigs from failed assembly. Check upstream — fastp may have dropped everything.
 - *SPAdes kills laptop (OOM):* Too many parallel assemblies. Snakemake `--cores 2`, Nextflow `maxForks 2`. Safe on 4+ GB RAM.
 - *pixi install hangs:* Network issue with conda channels. Use `pixi install -v` to debug, or pre-install before session.
-- *Nextflow "DSL1 not supported":* Running Nextflow 25+. pixi provides Nextflow 24 (DSL2 compatible). Use `pixi run nextflow`.
-- *command not found: fastp:* Tools are in `.pixi/envs/default/bin/`. Prefix with `pixi run`.
+- *Nextflow "DSL1 not supported":* Running Nextflow 25+. pixi provides Nextflow 24 (DSL2 compatible).
+- *command not found: fastp:* Run `pixi shell` to activate the environment, or prefix with `pixi run`.
 
 #v(10pt)
 

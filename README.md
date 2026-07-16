@@ -32,14 +32,16 @@ cd btip-2026-workflow-test
 pixi install    # first run: solves deps from scratch, 5-10 min
 ```
 
-> **Important:** All demo tools (fastp, spades, quast, snakemake, nextflow, dot) live inside pixi's environment — they are NOT in your system PATH. Prefix every command with `pixi run`.
+> **Important:** All tools (fastp, spades, quast, snakemake, nextflow, dot) live inside pixi's environment. \
+> **First, activate it:** `pixi shell`. All commands below then work without any prefix. \
+> **Or**, prefix individual commands with `pixi run` — e.g. `pixi run bash bash/pipeline.sh 20 33`.
 
 ### If you need data
 
 Reads are bundled in `data/reads/`. If missing, generate them:
 
 ```bash
-pixi run bash scripts/download_data.sh
+bash scripts/download_data.sh
 ```
 
 This downloads the E. coli K-12 genome (~1.3 MB) and generates synthetic paired-end reads (~10x coverage).
@@ -60,18 +62,14 @@ Each cell: trim reads (`fastp -q <QC>`) → assemble (`spades -k <kmer>`) → ev
 
 ```bash
 # Run one combo (~30 sec)
-pixi run bash bash/pipeline.sh 20 33
+bash bash/pipeline.sh 20 33
 
 # Run all 9 combos — the bash way (nested loop, sequential)
-pixi run bash -c '
 for q in 15 20 25; do
   for k in 21 33 55; do
     bash bash/pipeline.sh $q $k
   done
 done
-'
-# Or use the shortcut:
-# pixi run run-bash-sweep
 ```
 
 Results land in `results/bash/q{value}_k{value}/`.
@@ -88,19 +86,18 @@ Results land in `results/bash/q{value}_k{value}/`.
 
 ```bash
 # Dry run — see what would execute
-pixi run snakemake -s snakemake/Snakefile --cores 2 --dry-run
+snakemake -s snakemake/Snakefile --cores 2 --dry-run
 
 # Full run
-pixi run snakemake -s snakemake/Snakefile --cores 2
+snakemake -s snakemake/Snakefile --cores 2
 
 # Visualize the DAG
-pixi run snakemake -s snakemake/Snakefile --dag | \
-  pixi run dot -Tpng -o dag.png && xdg-open dag.png   # Linux
-# open dag.png                                         # macOS
-# Or use the shortcut: pixi run dag-snakemake
+snakemake -s snakemake/Snakefile --dag | \
+  dot -Tpng -o dag.png && xdg-open dag.png   # Linux
+# open dag.png                                # macOS
 
 # Re-run only failed/incomplete jobs
-pixi run snakemake -s snakemake/Snakefile --cores 2 --rerun-incomplete
+snakemake -s snakemake/Snakefile --cores 2 --rerun-incomplete
 ```
 
 Results land in `results/snakemake/q{value}_k{value}/`.
@@ -117,23 +114,23 @@ Results land in `results/snakemake/q{value}_k{value}/`.
 
 ```bash
 # Local run
-pixi run nextflow run nextflow/main.nf -profile local
+nextflow run nextflow/main.nf -profile local
 
 # HPC / SLURM — intern BTIP reservation
-pixi run nextflow run nextflow/main.nf -profile slurm
+nextflow run nextflow/main.nf -profile slurm
 
 # HPC with your own SLURM account — add a profile to nextflow.config:
 #   yourname {
 #       process { executor = 'slurm'; clusterOptions = '--account=abc --partition=xyz' }
 #       executor { queueSize = 10 }
 #   }
-# then: pixi run nextflow run nextflow/main.nf -profile yourname
+# then: nextflow run nextflow/main.nf -profile yourname
 
 # Resume after interruption
-pixi run nextflow run nextflow/main.nf -profile local -resume
+nextflow run nextflow/main.nf -profile local -resume
 
 # Change parameters
-pixi run nextflow run nextflow/main.nf -profile local \
+nextflow run nextflow/main.nf -profile local \
   --qc_values "[15,20,25]" --kmer_values "[21,33,55]"
 ```
 
@@ -145,7 +142,7 @@ Results land in `results/nextflow/q{value}_k{value}/`.
 - `-profile slurm`: native SLURM integration — interns use the BTIP reservation; add your own profile for personal use (see code block above)
 - `publishDir`: clean output per parameter combo
 - Built-in reports: DAG (`dag.svg`), timeline (`timeline.html`), execution report (`report.html`) — all in `results/nextflow/`
-- View the DAG: `pixi run dag-nextflow` or open `results/nextflow/dag.svg`
+- View the DAG: open `results/nextflow/dag.svg` or run `dot -Tsvg results/nextflow/dag.dot -o results/nextflow/dag.svg`
 
 ---
 
@@ -169,7 +166,7 @@ done
 You already know `conda install`. pixi uses the **exact same packages** from conda-forge and bioconda — but adds:
 
 - **`pixi.lock`** — locks every package to an exact version. Every intern gets the same fastp, spades, and quast. No "it worked on my machine" bugs.
-- **Project-local environments** — tools install into `.pixi/envs/default/` inside the repo, not a shared base environment. No conflicts between projects.
+- **Project-local environments** — tools install into `.pixi/envs/default/` inside the repo. Run `pixi shell` to activate them — no system-wide installs needed.
 - **Single file** — `pixi.toml` lists every dependency. `pixi install` reproduces the environment from scratch on any machine.
 
 ### Why the reads are bundled (and tracked by git)
@@ -192,7 +189,7 @@ Pipeline outputs go to `results/` and Nextflow's scratch space goes to `work/`. 
 
 | Problem | Fix |
 |---|---|
-| `command not found: fastp` | Missing `pixi run` prefix — all tools need it |
+| `command not found: fastp` | Run `pixi shell` first to activate the environment, or prefix with `pixi run` |
 | `pixi install hangs` | First solve takes 5-10 min. Run `pixi install -v` to see progress |
 | SPAdes kills laptop (OOM) | Snakemake uses `--cores 2`, Nextflow uses `maxForks=2` — should be safe on 4+ GB RAM |
 | `results/` has stale files | Clean up: `rm -rf results/ work/ .snakemake .nextflow*` then re-run |

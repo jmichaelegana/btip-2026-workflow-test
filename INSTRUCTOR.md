@@ -70,7 +70,7 @@ pixi run nextflow config nextflow/main.nf -profile slurm_jcegana
 | `dot` not found for DAG visualization | Graphviz not installed | graphviz is in pixi.toml — run `pixi install` |
 | SPAdes kills laptop (OOM) | Too many parallel assemblies | Snakemake `--cores 2`, Nextflow `maxForks 2` — safe on 4+ GB RAM |
 | Nextflow "DSL1 not supported" | Running with Nextflow 25+ | Use `pixi run nextflow` (pixi provides Nextflow 24, DSL2 compatible) |
-| `command not found: fastp` | Missing pixi environment | Prefix with `pixi run` — tools are in `.pixi/envs/default/bin/` |
+| `command not found: fastp` | Missing pixi shell activation | Tell them: "Did you run `pixi shell`? That activates all the tools." Fallback: `pixi run fastp ...` |
 | pixi install takes forever | First solve from scratch | Expected 5-10 min. Run `pixi install -v` to see progress |
 
 ### 3. Session Prep Checklist
@@ -112,21 +112,24 @@ _____
 ### 4. Command Reference Cheat Sheet
 
 ```
+=== FIRST — activate pixi ===
+pixi shell                                            # opens a sub-shell with all tools on PATH
+
 === BASH ===
-pixi run bash bash/pipeline.sh 20 33              # single run
-pixi run bash -c 'for q in 15 20 25; do for k in 21 33 55; do bash bash/pipeline.sh $q $k; done; done'  # all 9
+bash bash/pipeline.sh 20 33                           # single run
+for q in 15 20 25; do for k in 21 33 55; do bash bash/pipeline.sh $q $k; done; done   # all 9
 
 === SNAKEMAKE ===
-pixi run snakemake -s snakemake/Snakefile --cores 2 --dry-run   # preview
-pixi run snakemake -s snakemake/Snakefile --cores 2              # full run
-pixi run snakemake -s snakemake/Snakefile --dag | pixi run dot -Tpng > dag.png  # DAG
-pixi run snakemake -s snakemake/Snakefile --cores 2 --rerun-incomplete  # resume
+snakemake -s snakemake/Snakefile --cores 2 --dry-run  # preview
+snakemake -s snakemake/Snakefile --cores 2             # full run
+snakemake -s snakemake/Snakefile --dag | dot -Tpng -o dag.png  # DAG
+snakemake -s snakemake/Snakefile --cores 2 --rerun-incomplete   # resume
 
 === NEXTFLOW ===
-pixi run nextflow run nextflow/main.nf -profile local             # full run
-pixi run nextflow run nextflow/main.nf -profile local -resume     # resume
-pixi run nextflow run nextflow/main.nf -profile slurm             # interns — BTIP reservation
-pixi run nextflow run nextflow/main.nf -profile slurm_jcegana     # instructor — personal account
+nextflow run nextflow/main.nf -profile local           # full run
+nextflow run nextflow/main.nf -profile local -resume   # resume
+nextflow run nextflow/main.nf -profile slurm           # interns — BTIP reservation
+nextflow run nextflow/main.nf -profile slurm_jcegana   # instructor — personal account
 
 === CUSTOM SLURM PROFILE (interns) ===
 # To use your own SLURM account, add a profile to nextflow/nextflow.config:
@@ -145,7 +148,7 @@ pixi run nextflow run nextflow/main.nf -profile slurm_jcegana     # instructor �
 
 | Block | Duration | Clock | Notes |
 |---|---|---|---|
-| Intro + Hook (slides #1-6) | 10 min | 0:00-0:10 | Don't rush. The 3×3 grid must land. Slide #6 covers pixi/reproducibility concepts briefly — interns know conda, bridge to pixi. |
+| Intro + Hook (slides #1-6) | 10 min | 0:00-0:10 | Don't rush. The 3×3 grid must land. At slide #5 (Setup Check): have everyone run `pixi shell` — this activates all tools so commands work bare for the rest of the session. |
 | Bash hands-on (slide #7) | 15 min | 0:10-0:25 | Walk the room. Help stuck interns. Don't fix everything — the "pain" is intentional. |
 | Bash discussion (slide #8) | 5 min | 0:25-0:30 | "What was hard?" Let THEM articulate pain points before you show the next slide. |
 | Snakemake reveal (slides #9-11) | 20 min | 0:30-0:50 | Show dry-run first. Then DAG. Then full run. The `--dag` visualization = the "wow." |
@@ -180,7 +183,7 @@ pixi run nextflow run nextflow/main.nf -profile slurm_jcegana     # instructor �
 
 ### Tactical Notes
 
-- **Don't let them install during the session.** Verify `pixi install` completed at the very start (slide #6).
+- **Have everyone run `pixi shell` together.** Do it as a room right after slide #5 (Setup Check). Say: "Type `pixi shell`. Now you're inside pixi's environment. All commands work bare. Type `exit` when we're done." This avoids the inevitable `command not found` confusion.
 - **The bash loop is deliberately painful.** Don't help them write the nested loop — let them feel it. "How would you do all 9?" is the key teaching moment.
 - **Show DAG before running.** The `--dag` visualization is more powerful when they see it BEFORE the run. It becomes a map they recognize during execution.
 - **The resume demos need to be live.** Pre-position a partial Snakemake/Nextflow run so you can demonstrate resume without waiting for a full run.

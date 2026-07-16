@@ -122,6 +122,9 @@ pixi run nextflow run nextflow/main.nf -profile local
 # HPC / SLURM run (CFB cluster, BTIP reservation)
 pixi run nextflow run nextflow/main.nf -profile slurm
 
+# HPC with your own SLURM account (edit nextflow.config or add a profile)
+pixi run nextflow run nextflow/main.nf -profile slurm_jcegana
+
 # Resume after interruption
 pixi run nextflow run nextflow/main.nf -profile local -resume
 

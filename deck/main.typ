@@ -748,15 +748,17 @@ profiles {
     #text(size: 0.80em, weight: "bold", fill: pgc-purple)[Unique to each]
     #v(0.25em)
     #grid(columns: (auto, 1fr), column-gutter: 0.3em, row-gutter: 0.2em,
-      text(size: 0.67em, weight: "bold", fill: ink)[Snakemake],
+      text(size: 0.67em, weight: "bold", fill: pgc-purple)[Snakemake],
       text(size: 0.67em, fill: ink)[`checkpoint` — DAG adapts mid-run based on output.],
-      text(size: 0.67em, fill: ink)[],
-      text(size: 0.67em, fill: ink)[`--report` — self-contained HTML with embedded results, tables, and figures.],
-      text(size: 0.67em, weight: "bold", fill: ink)[Nextflow],
+      [],
+      text(size: 0.67em, fill: ink)[`--report` — self-contained HTML with embedded results.],
+      [],
+      line(length: 100%, stroke: pgc-purple.lighten(20%) + 0.4pt),
+      text(size: 0.67em, weight: "bold", fill: pgc-purple)[Nextflow],
       text(size: 0.67em, fill: ink)[`nf-core` — 100+ ready-made community pipelines (rnaseq, sarek, ampliseq, mag…).],
-      text(size: 0.67em, fill: ink)[],
+      [],
       text(size: 0.67em, fill: ink)[Cloud executors — AWS Batch, Google Cloud, Azure. One line of config.],
-      text(size: 0.67em, fill: ink)[],
+      [],
       text(size: 0.67em, fill: ink)[Fusion file system — no staging, no data copying. Direct cloud object store access.],
     )
   ],

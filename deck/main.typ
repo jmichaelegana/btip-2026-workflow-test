@@ -221,6 +221,40 @@
 ]
 
 
+== What's Under the Hood
+
+#v(0.3em)
+
+#text(size: 0.75em, fill: ink)[Why this demo works on any machine, no surprises:]
+
+#v(0.4em)
+
+#grid(columns: 2, column-gutter: 0.5em, row-gutter: 0.4em,
+  block(inset: 0.4em, radius: 4pt, fill: pgc-purple-light, stroke: pgc-purple + 0.5pt)[
+    #text(size: 0.67em, weight: "bold", fill: pgc-purple)[pixi.lock]\
+    #text(size: 0.60em, fill: ink)[Like conda, but with a lock file — exact same versions of every tool on every machine. No "works on my laptop."]
+  ],
+  block(inset: 0.4em, radius: 4pt, fill: pgc-purple-light, stroke: pgc-purple + 0.5pt)[
+    #text(size: 0.67em, weight: "bold", fill: pgc-purple)[Bundled data]\
+    #text(size: 0.60em, fill: ink)[154K reads shipped in the repo (~15 MB). No network download needed. Demo is self-contained and offline-ready.]
+  ],
+  block(inset: 0.4em, radius: 4pt, fill: pgc-purple-light, stroke: pgc-purple + 0.5pt)[
+    #text(size: 0.67em, weight: "bold", fill: pgc-purple)[Git tracks code, not results]\
+    #text(size: 0.60em, fill: ink)[Pipeline scripts are versioned. Output data (`results/`) is not — it's regenerable. Code is the source of truth.]
+  ],
+  block(inset: 0.4em, radius: 4pt, fill: pgc-purple-light, stroke: pgc-purple + 0.5pt)[
+    #text(size: 0.67em, weight: "bold", fill: pgc-purple)[pixi.toml = env docs]\
+    #text(size: 0.60em, fill: ink)[One file lists every tool and version constraint. Anyone can reproduce the environment: `pixi install`.]
+  ],
+)
+
+#v(0.4em)
+
+#text(size: 0.67em, fill: accent-gold)[
+  #text(weight: "bold")[You already know conda.] pixi uses the same packages — just adds a lock file and project-local environments. No more broken base environments.
+]
+
+
 // =============================================================================
 // 2. BASH (slides 7–8, 15 min hands-on + 5 min discussion)
 // =============================================================================

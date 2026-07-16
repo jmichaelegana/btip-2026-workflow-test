@@ -94,12 +94,12 @@ pixi run nextflow run nextflow/main.nf -profile local -resume     # resume
 
 | Block | Duration | Clock | Notes |
 |---|---|---|---|
-| Intro + Hook (slides #1-5) | 10 min | 0:00-0:10 | Don't rush. The 3×3 grid must land. |
-| Bash hands-on (slide #6) | 15 min | 0:10-0:25 | Walk the room. Help stuck interns. Don't fix everything — the "pain" is intentional. |
-| Bash discussion (slide #7) | 5 min | 0:25-0:30 | "What was hard?" Let THEM articulate pain points before you show the next slide. |
-| Snakemake reveal (slides #8-10) | 20 min | 0:30-0:50 | Show dry-run first. Then DAG. Then full run. The `--dag` visualization = the "wow." |
-| Nextflow reveal (slides #11-13) | 20 min | 0:50-1:10 | Start with `-resume` demo (ctrl-c, re-run). Channels are abstract; resume is concrete. |
-| Compare + close (slides #14-18) | 10 min | 1:10-1:20 | Side-by-side table. Triad callback. Exit ticket link. |
+| Intro + Hook (slides #1-6) | 10 min | 0:00-0:10 | Don't rush. The 3×3 grid must land. Slide #6 covers pixi/reproducibility concepts briefly — interns know conda, bridge to pixi. |
+| Bash hands-on (slide #7) | 15 min | 0:10-0:25 | Walk the room. Help stuck interns. Don't fix everything — the "pain" is intentional. |
+| Bash discussion (slide #8) | 5 min | 0:25-0:30 | "What was hard?" Let THEM articulate pain points before you show the next slide. |
+| Snakemake reveal (slides #9-11) | 20 min | 0:30-0:50 | Show dry-run first. Then DAG. Then full run. The `--dag` visualization = the "wow." |
+| Nextflow reveal (slides #12-14) | 20 min | 0:50-1:10 | Start with `-resume` demo (ctrl-c, re-run). Channels are abstract; resume is concrete. |
+| Compare + close (slides #15-19) | 10 min | 1:10-1:20 | Side-by-side table. Triad callback. Exit ticket link. |
 | Buffer | 10 min | 1:20-1:30 | Overflow Q&A. Help lingering interns. |
 
 ### Live Demo Demonstrations

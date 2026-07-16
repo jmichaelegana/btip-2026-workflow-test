@@ -213,6 +213,13 @@
   Let's start with bash — the simplest tool, and the first to break.
 ]
 
+#v(0.5em)
+
+#text(size: 0.67em, fill: accent-gold)[
+  #text(weight: "bold")[pixi install] may take 5-10 min first time — that's normal. \
+  All commands need `pixi run` prefix — tools are in pixi's environment, not system PATH.
+]
+
 
 // =============================================================================
 // 2. BASH (slides 7–8, 15 min hands-on + 5 min discussion)
@@ -254,6 +261,12 @@
 
 #text(size: 0.78em, weight: "bold", fill: pgc-purple)[
   Go ahead. Run it. One combo first, then think about doing all 9.
+]
+
+#v(0.4em)
+
+#text(size: 0.67em, fill: accent-gold)[
+  Note: the nested for-loop runs *sequentially* — one combo after another, no parallelism.
 ]
 
 
@@ -589,7 +602,7 @@ process TRIM {
 #v(0.3em)
 
 #text(size: 0.67em, fill: accent-gold)[
-  Run `find results -name "report.tsv" | while read f; do n50=$(grep "N50" "$f"); echo "$f: $n50"; done` to verify yours.
+  Your numbers may differ — run the compare one-liner from the README to verify your own results.
 ]
 
 

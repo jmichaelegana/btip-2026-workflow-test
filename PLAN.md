@@ -1,22 +1,25 @@
-# PLAN — Portable Setup for Fedora Linux
+# PLAN — Portable Setup for Ubuntu / Fedora Linux
 
-## Prerequisites on Fedora
+## Prerequisites
 
 ```bash
 # pixi (conda-forge package manager)
 curl -fsSL https://pixi.sh/install.sh | bash
-# restart shell or: source ~/.bashrc
+# restart shell or: source ~/.bashrc  (Linux) / source ~/.zshrc (macOS)
 
 # typst (for rendering slides)
-sudo dnf install -y typst
+#   Ubuntu: sudo apt install typst
+#   Fedora: sudo dnf install -y typst
 
-# Graphviz (for Snakemake DAG visualization, optional)
-sudo dnf install -y graphviz
+# Inter font (for slide deck)
+#   Ubuntu: sudo apt install fonts-inter
+#   Fedora: sudo dnf install -y google-inter-fonts
+#   Or: fonts are bundled in deck/fonts/ (TTF files, install via fc-cache)
 ```
 
 ## Slide Deck
 
-Only **typst** is needed to render `deck/main.typ`. All Typst packages (`touying`, `cetz`, `metropolis`) are auto-fetched by the compiler on first compile — no separate install.
+Only **typst** and the **Inter font** are needed to render `deck/main.typ`. All Typst packages (`touying`, `cetz`, `metropolis`) are auto-fetched by the compiler on first compile.
 
 ```bash
 cd deck
@@ -30,40 +33,43 @@ If `make` is unavailable:
 typst compile --root . main.typ main.pdf
 ```
 
-The deck uses the same PGC purple palette, Inter font, and `triad()` diagram as the bioinformatics algorithms lecture deck.
+The deck uses the PGC purple palette, Inter font, and `triad()` diagram. **19 slides** total.
 
 ## Clone & Install
 
 ```bash
-git clone <repo-url>
-cd up-pgc-btip-workflow-managers
+git clone https://github.com/jmichaelegana/btip-2026-workflow-test.git
+cd btip-2026-workflow-test
 
-# Install demo deps (fastp, spades, quast, snakemake, nextflow)
+# Install demo deps (fastp, spades, quast, snakemake, nextflow, graphviz)
+# First run: solves from scratch, 5-10 min
 pixi install
 
-# Generate data (if not bundled) — downloads E. coli genome + synthesizes reads
-# Reads are bundled in data/reads/ so this is optional
+# Subsequent runs: use --frozen for exact reproduction
+# pixi install --frozen
+
+# Generate data (if not bundled) — reads are bundled in data/reads/ so this is optional
 pixi run bash scripts/download_data.sh
 ```
 
 ## Verify Everything Works
 
 ```bash
-# 1. Bash — single combo (~60 sec)
+# 1. Bash — single combo (~30 sec)
 pixi run bash bash/pipeline.sh 20 33
 ls results/bash/q20_k33/spades/contigs.fasta
 
 # 2. Snakemake dry-run
 pixi run snakemake -s snakemake/Snakefile --cores 2 --dry-run
 
-# 3. Snakemake full run (~3-5 min)
+# 3. Snakemake full run (~3-5 min for all 9 combos)
 pixi run snakemake -s snakemake/Snakefile --cores 2
 
 # 4. Snakemake resume test
 # Start run, kill mid-way (ctrl-c), then:
 pixi run snakemake -s snakemake/Snakefile --cores 2 --rerun-incomplete
 
-# 5. Nextflow full run (~3-5 min)
+# 5. Nextflow full run (~3-5 min for all 9 combos)
 pixi run nextflow run nextflow/main.nf -profile local
 
 # 6. Nextflow resume test
@@ -76,18 +82,32 @@ cd deck && make && cd ..
 
 ## Platform Notes
 
-| Component | macOS (arm64) | Fedora Linux (x86_64) |
+| Component | macOS (x86_64) | Linux (x86_64) |
 |---|---|---|
-| pixi | ✅ | ✅ |
-| fastp | ✅ conda | ✅ conda |
-| spades | ✅ conda | ✅ conda |
-| quast | ✅ conda | ✅ conda |
-| snakemake | ✅ conda | ✅ conda |
-| nextflow | ✅ conda | ✅ conda (Java included) |
-| typst | ✅ Homebrew | ✅ dnf |
-| graphviz | ✅ Homebrew | ✅ dnf |
+| pixi | ✅ curl | ✅ curl |
+| fastp | ✅ pixi/conda | ✅ pixi/conda |
+| spades | ✅ pixi/conda | ✅ pixi/conda |
+| quast | ✅ pixi/conda | ✅ pixi/conda |
+| snakemake | ✅ pixi/conda | ✅ pixi/conda |
+| nextflow | ✅ pixi/conda | ✅ pixi/conda |
+| graphviz / dot | ✅ pixi/conda | ✅ pixi/conda |
+| typst | ✅ Homebrew | ✅ apt / dnf |
+| Inter font | ✅ bundled in deck/fonts/ | ✅ bundled in deck/fonts/ |
 
-All demo dependencies are conda-packaged and platform-independent. The bundled reads (`data/reads/sample_R*.fastq.gz`) are plain gzipped FASTQ — no platform concerns.
+> **Note:** macOS arm64 (Apple Silicon) is NOT supported — the `quast` conda package has no arm64 build. Use x86_64 macOS or Linux.
+
+All demo tools are pixi-packaged and platform-independent. The bundled reads (`data/reads/sample_R*.fastq.gz`) are plain gzipped FASTQ — no platform concerns.
+
+## Concurrency Configuration
+
+To keep the demo safe on laptops (4+ GB RAM):
+
+| Parameter | Value | Where |
+|---|---|---|
+| SPAdes threads | 1 | Snakefile: `--threads 1`, main.nf: `--threads 1` |
+| Snakemake cores | 2 | `--cores 2` (in pixi tasks and docs) |
+| Nextflow maxForks | 2 | `nextflow.config`: `maxForks = 2` on ASSEMBLE/EVALUATE |
+| Nextflow cpus | 1 | `nextflow.config`: `cpus = 1` |
 
 ## Session Architecture
 
@@ -110,8 +130,9 @@ All demo dependencies are conda-packaged and platform-independent. The bundled r
 ## File Map
 
 ```
-up-pgc-btip-workflow-managers/
+btip-2026-workflow-test/
 ├── pixi.toml                 ← demo environment (conda-forge + bioconda)
+├── pixi.lock                 ← solved lock file (linux-64, osx-64)
 ├── README.md                 ← intern-facing hands-on guide
 ├── INSTRUCTOR.md             ← teaching notes, test checklist, common failures
 ├── PLAN.md                   ← this file — cross-platform setup
@@ -119,31 +140,36 @@ up-pgc-btip-workflow-managers/
 ├── bash/pipeline.sh          ← manual bash implementation
 ├── snakemake/
 │   ├── Snakefile             ← Snakemake implementation
-│   └── config.yaml           ← parameter values
+│   └── config.yaml           ← parameter values + pixi docs
 ├── nextflow/
-│   ├── main.nf               ← Nextflow implementation
-│   └── nextflow.config       ← Nextflow configuration
+│   ├── main.nf               ← Nextflow implementation (DSL2)
+│   └── nextflow.config       ← Nextflow config (env, concurrency, reports)
 ├── deck/
-│   ├── main.typ              ← Typst slides (18 slides)
-│   ├── main.pdf              ← compiled PDF
+│   ├── main.typ              ← Typst slides (19 slides)
 │   ├── lib/triad.typ         ← triad diagram helper
 │   ├── logo/*.png            ← PGC/CFB/UP logos
-│   ├── pixi.toml             ← slide build environment
+│   ├── fonts/*.ttf           ← Inter font (bundled, install via fc-cache)
+│   ├── pixi.toml             ← slide build environment (tasks only)
+│   ├── pixi.lock             ← deck lock file
 │   └── Makefile              ← typst compile/watch
 ├── scripts/
 │   ├── download_data.sh      ← download E. coli reference
 │   └── generate_reads.py     ← synthetic read generator
-└── expected_output/          ← placeholder
+└── results/                  ← demo output (gitignored)
+    ├── bash/
+    ├── snakemake/
+    └── nextflow/
 ```
 
 ## Quick Start (Session Day)
 
 ```bash
 # 1. Present slides
-cd deck && make && open main.pdf   # or xdg-open main.pdf on Linux
+cd deck && make && xdg-open main.pdf   # or open main.pdf on macOS
 
 # 2. Interns clone and install
-git clone <repo-url> && cd up-pgc-btip-workflow-managers && pixi install
+git clone https://github.com/jmichaelegana/btip-2026-workflow-test.git
+cd btip-2026-workflow-test && pixi install
 
 # 3. Demo session (see INSTRUCTOR.md for timing)
 pixi run bash bash/pipeline.sh 20 33            # 1 combo

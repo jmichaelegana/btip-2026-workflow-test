@@ -8,7 +8,7 @@
 # Clone fresh and verify
 cd /tmp
 rm -rf test-demo
-cp -r ~/up-pgc-btip-workflow-managers test-demo && cd test-demo
+cp -r ~/btip-2026-workflow-test test-demo && cd test-demo
 pixi install
 
 # Generate/verify data
@@ -49,19 +49,23 @@ pixi run nextflow run nextflow/main.nf -profile local -resume
 | QuAST fails with "cannot parse" | Empty contigs from failed assembly | Check upstream — fastp may have filtered all reads |
 | pixi install hangs | Network issue with conda channels | Use `pixi install -v` to debug, or pre-install on presentation machine |
 | Snakemake DAG shows no edges | Dependencies not resolved | Check `rule all` input patterns match `expand()` output |
-| `dot` not found for DAG visualization | Graphviz not installed | `pixi add graphviz` or skip the DAG visualization demo |
+| `dot` not found for DAG visualization | Graphviz not installed | graphviz is in pixi.toml — run `pixi install` |
+| SPAdes kills laptop (OOM) | Too many parallel assemblies | Snakemake `--cores 2`, Nextflow `maxForks 2` — safe on 4+ GB RAM |
+| Nextflow "DSL1 not supported" | Running with Nextflow 25+ | Use `pixi run nextflow` (pixi provides Nextflow 24, DSL2 compatible) |
+| `command not found: fastp` | Missing pixi environment | Prefix with `pixi run` — tools are in `.pixi/envs/default/bin/` |
+| pixi install takes forever | First solve from scratch | Expected 5-10 min. Run `pixi install -v` to see progress |
 
 ### 3. Session Prep Checklist
 
 - [ ] Test demo end-to-end on the presentation machine
 - [ ] Pre-build the slide PDF (`cd deck && make`)
-- [ ] Create the exit ticket Google Form (3 questions, see slide #18)
+- [ ] Create the exit ticket Google Form (3 questions, see the Exit Ticket slide)
 - [ ] Check room WiFi — interns need to clone the repo or receive USB
 - [ ] Alternative: pre-distribute repo on USB drives (no network dependency)
 - [ ] Open 3 terminal windows: one for bash, one for Snakemake, one for Nextflow
 - [ ] Pre-cd each terminal into the demo directory
 - [ ] Check projector resolution (16:9)
-- [ ] Pre-generate `dag.png` for the slides (`pixi run snakemake --dag | pixi run dot -Tpng > deck/media/dag.png`)
+- [ ] Pre-generate `dag.png` for the slides: `mkdir -p deck/media && pixi run snakemake --dag | pixi run dot -Tpng > deck/media/dag.png`
 - [ ] Print 1-page command reference (see below)
 
 ### 4. Command Reference Cheat Sheet
@@ -90,12 +94,12 @@ pixi run nextflow run nextflow/main.nf -profile local -resume     # resume
 
 | Block | Duration | Clock | Notes |
 |---|---|---|---|
-| Slides #1-6: Intro + Hook | 10 min | 0:00-0:10 | Don't rush. The 3×3 grid must land. |
-| Bash hands-on | 15 min | 0:10-0:25 | Walk the room. Help stuck interns. Don't fix everything — the "pain" is intentional. |
-| Bash discussion | 5 min | 0:25-0:30 | "What was hard?" Let THEM articulate pain points before you show slide #8. |
-| Snakemake reveal | 20 min | 0:30-0:50 | Show dry-run first. Then DAG. Then full run. The `--dag` visualization = the "wow." |
-| Nextflow reveal | 20 min | 0:50-1:10 | Start with `-resume` demo (ctrl-c, re-run). Channels are abstract; resume is concrete. |
-| Compare + close | 10 min | 1:10-1:20 | Side-by-side table. Triad callback. Exit ticket link. |
+| Intro + Hook (slides #1-5) | 10 min | 0:00-0:10 | Don't rush. The 3×3 grid must land. |
+| Bash hands-on (slide #6) | 15 min | 0:10-0:25 | Walk the room. Help stuck interns. Don't fix everything — the "pain" is intentional. |
+| Bash discussion (slide #7) | 5 min | 0:25-0:30 | "What was hard?" Let THEM articulate pain points before you show the next slide. |
+| Snakemake reveal (slides #8-10) | 20 min | 0:30-0:50 | Show dry-run first. Then DAG. Then full run. The `--dag` visualization = the "wow." |
+| Nextflow reveal (slides #11-13) | 20 min | 0:50-1:10 | Start with `-resume` demo (ctrl-c, re-run). Channels are abstract; resume is concrete. |
+| Compare + close (slides #14-18) | 10 min | 1:10-1:20 | Side-by-side table. Triad callback. Exit ticket link. |
 | Buffer | 10 min | 1:20-1:30 | Overflow Q&A. Help lingering interns. |
 
 ### Live Demo Demonstrations

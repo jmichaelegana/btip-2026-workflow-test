@@ -13,7 +13,8 @@
 curl -fsSL https://pixi.sh/install.sh | bash
 
 # Restart your shell or run:
-source ~/.bashrc
+#   Linux: source ~/.bashrc
+#   macOS: source ~/.zshrc
 ```
 
 Verify it works:
@@ -25,12 +26,12 @@ pixi --version
 ## Setup
 
 ```bash
-git clone <this-repo>
+git clone https://github.com/jmichaelegana/btip-2026-workflow-test.git
 cd btip-2026-workflow-test
-pixi install
+pixi install    # first run: solves deps from scratch, 5-10 min
 ```
 
-> **Important:** All demo tools (fastp, spades, quast, snakemake, nextflow) live inside pixi's environment — they are NOT in your system PATH. Prefix every command with `pixi run` to use them.
+> **Important:** All demo tools (fastp, spades, quast, snakemake, nextflow, dot) live inside pixi's environment — they are NOT in your system PATH. Prefix every command with `pixi run`.
 
 ### If you need data
 
@@ -40,7 +41,7 @@ Reads are bundled in `data/reads/`. If missing, generate them:
 pixi run bash scripts/download_data.sh
 ```
 
-This downloads the E. coli K-12 genome (~5 MB) and generates synthetic paired-end reads (~10x coverage).
+This downloads the E. coli K-12 genome (~1.3 MB) and generates synthetic paired-end reads (~10x coverage).
 
 ## The 3×3 Parameter Sweep
 
@@ -57,10 +58,10 @@ Each cell: trim reads (`fastp -q <QC>`) → assemble (`spades -k <kmer>`) → ev
 ## 1. Bash
 
 ```bash
-# Run one combo (~60 sec)
+# Run one combo (~30 sec)
 pixi run bash bash/pipeline.sh 20 33
 
-# Run all 9 combos
+# Run all 9 combos — the bash way (nested loop, sequential)
 pixi run bash -c '
 for q in 15 20 30; do
   for k in 21 33 55; do
@@ -68,6 +69,8 @@ for q in 15 20 30; do
   done
 done
 '
+# Or use the shortcut:
+# pixi run run-bash-sweep
 ```
 
 Results land in `results/bash/q{value}_k{value}/`.
@@ -76,7 +79,7 @@ Results land in `results/bash/q{value}_k{value}/`.
 - No resume: kill mid-run → restart from scratch
 - No DAG: can't see what depends on what
 - Output scattered: 9 flat directories, manually compare
-- No parallelism in the loop (without `&`/`xargs` tricks)
+- Sequential only: the loop waits for each step (no parallelism)
 
 ---
 
@@ -91,7 +94,8 @@ pixi run snakemake -s snakemake/Snakefile --cores 2
 
 # Visualize the DAG
 pixi run snakemake -s snakemake/Snakefile --dag | \
-  pixi run dot -Tpng -o dag.png && xdg-open dag.png
+  pixi run dot -Tpng -o dag.png && xdg-open dag.png   # Linux
+# open dag.png                                         # macOS
 
 # Re-run only failed/incomplete jobs
 pixi run snakemake -s snakemake/Snakefile --cores 2 --rerun-incomplete
@@ -127,17 +131,28 @@ Results land in `results/nextflow/q{value}_k{value}/`.
 - Channel cartesian product: `qc_ch.combine(kmer_ch)` = all 9 combos
 - `-resume`: cached processes skip re-computation
 - `publishDir`: clean output per parameter combo
-- Built-in reports: DAG, timeline, execution report
+- Built-in reports: DAG, timeline, execution report (in `results/nextflow/`)
 
 ---
 
 ## Compare Results
 
 ```bash
-# Compare QUAST N50 across all runs (no pixi needed — uses system find/grep)
+# Compare QUAST N50 across all runs (uses system find/grep — no pixi needed)
 find results -name "report.tsv" | head -5 | xargs head -1
 find results -name "report.tsv" | while read f; do
   n50=$(grep "N50" "$f" | head -1)
   echo "$f: $n50"
 done
 ```
+
+---
+
+## Troubleshooting
+
+| Problem | Fix |
+|---|---|
+| `command not found: fastp` | Missing `pixi run` prefix — all tools need it |
+| `pixi install hangs` | First solve takes 5-10 min. Run `pixi install -v` to see progress |
+| SPAdes kills laptop (OOM) | Snakemake uses `--cores 2`, Nextflow uses `maxForks=2` — should be safe on 4+ GB RAM |
+| `results/` has stale files | Clean up: `rm -rf results/ work/ .snakemake .nextflow*` then re-run |

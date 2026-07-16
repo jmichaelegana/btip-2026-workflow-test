@@ -41,7 +41,7 @@ rule assemble:
         "spades.py --isolate "
         "-1 {input.r1} -2 {input.r2} "
         "-k {params.k} -o {params.outdir} "
-        "--threads 2"
+        "--threads 1"
 
 rule evaluate:
     output:
@@ -52,4 +52,4 @@ rule evaluate:
         contigs=f"{OUTDIR}/q{{qc}}_k{{k}}/spades/contigs.fasta",
     shell:
         "quast {input.contigs} "
-        "-o {params.outdir} --threads 2"
+        "-o {params.outdir} --threads 1"

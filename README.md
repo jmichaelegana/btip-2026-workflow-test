@@ -80,16 +80,16 @@ Results land in `results/bash/q{value}_k{value}/`.
 
 ```bash
 # Dry run — see what would execute
-snakemake -s snakemake/Snakefile --cores 4 --dry-run
+snakemake -s snakemake/Snakefile --cores 2 --dry-run
 
 # Full run
-snakemake -s snakemake/Snakefile --cores 4
+snakemake -s snakemake/Snakefile --cores 2
 
 # Visualize the DAG
 snakemake -s snakemake/Snakefile --dag | dot -Tpng -o dag.png && open dag.png
 
 # Re-run only failed/incomplete jobs
-snakemake -s snakemake/Snakefile --cores 4 --rerun-incomplete
+snakemake -s snakemake/Snakefile --cores 2 --rerun-incomplete
 ```
 
 Results land in `results/snakemake/q{value}_k{value}/`.

@@ -20,16 +20,16 @@ ls results/bash/q20_k33/spades/contigs.fasta
 ls results/bash/q20_k33/quast/report.tsv
 
 # Test Snakemake dry-run
-snakemake -s snakemake/Snakefile --cores 4 --dry-run
+snakemake -s snakemake/Snakefile --cores 2 --dry-run
 # Should show: Job stats: 28 jobs (1 count + 9 trim + 9 assemble + 9 evaluate)
 # Or: 27 (rule all's 9 inputs + 9 trim + 9 assemble + 9 evaluate)
 
 # Test Snakemake full run (~3-5 min)
-snakemake -s snakemake/Snakefile --cores 4
+snakemake -s snakemake/Snakefile --cores 2
 
 # Test Snakemake resume
 # Kill one SPAdes run mid-way, then:
-snakemake -s snakemake/Snakefile --cores 4 --rerun-incomplete
+snakemake -s snakemake/Snakefile --cores 2 --rerun-incomplete
 
 # Test Nextflow full run (~3-5 min)
 nextflow run nextflow/main.nf -profile local
@@ -72,10 +72,10 @@ bash bash/pipeline.sh 20 33              # single run
 for q in 15 20 30; do for k in 21 33 55; do bash bash/pipeline.sh $q $k; done; done  # all 9
 
 === SNAKEMAKE ===
-snakemake -s snakemake/Snakefile --cores 4 --dry-run   # preview
-snakemake -s snakemake/Snakefile --cores 4              # full run
+snakemake -s snakemake/Snakefile --cores 2 --dry-run   # preview
+snakemake -s snakemake/Snakefile --cores 2              # full run
 snakemake -s snakemake/Snakefile --dag | dot -Tpng > dag.png  # DAG
-snakemake -s snakemake/Snakefile --cores 4 --rerun-incomplete  # resume
+snakemake -s snakemake/Snakefile --cores 2 --rerun-incomplete  # resume
 
 === NEXTFLOW ===
 nextflow run nextflow/main.nf -profile local             # full run

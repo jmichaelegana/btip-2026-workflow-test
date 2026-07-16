@@ -8,9 +8,9 @@ version = "0.1.0"
 
 [tasks]
 run-bash = "bash bash/pipeline.sh"
-run-snakemake = "snakemake -s snakemake/Snakefile --cores 4"
-run-snakemake-dry = "snakemake -s snakemake/Snakefile --cores 4 --dry-run"
-run-nextflow = "nextflow run nextflow/main.nf -profile local"
+run-snakemake = "snakemake -s snakemake/Snakefile --cores 2"
+run-snakemake-dry = "snakemake -s snakemake/Snakefile --cores 2 --dry-run"
+run-nextflow = "./.pixi/envs/default/bin/nextflow run nextflow/main.nf -profile local"
 download-data = "bash scripts/download_data.sh"
 
 [dependencies]

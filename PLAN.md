@@ -54,14 +54,14 @@ bash bash/pipeline.sh 20 33
 ls results/bash/q20_k33/spades/contigs.fasta
 
 # 2. Snakemake dry-run
-snakemake -s snakemake/Snakefile --cores 4 --dry-run
+snakemake -s snakemake/Snakefile --cores 2 --dry-run
 
 # 3. Snakemake full run (~3-5 min)
-snakemake -s snakemake/Snakefile --cores 4
+snakemake -s snakemake/Snakefile --cores 2
 
 # 4. Snakemake resume test
 # Start run, kill mid-way (ctrl-c), then:
-snakemake -s snakemake/Snakefile --cores 4 --rerun-incomplete
+snakemake -s snakemake/Snakefile --cores 2 --rerun-incomplete
 
 # 5. Nextflow full run (~3-5 min)
 nextflow run nextflow/main.nf -profile local

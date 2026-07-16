@@ -9,6 +9,8 @@ version = "0.1.0"
 [tasks]
 render-deck = "typst compile --font-path deck/fonts/ deck/main.typ deck/main.pdf"
 watch-deck = "typst watch --font-path deck/fonts/ deck/main.typ deck/main.pdf"
+print-cheatsheet = "typst compile --font-path deck/fonts/ deck/cheatsheet.typ deck/cheatsheet.pdf"
+dag-slide = "bash -c 'snakemake -s snakemake/Snakefile --dag | dot -Tpng -o deck/media/dag.png && echo DAG saved to deck/media/dag.png'"
 setup-fonts = "bash scripts/setup_fonts.sh"
 run-bash = "bash bash/pipeline.sh"
 run-bash-sweep = "bash -c 'for q in 15 20 25; do for k in 21 33 55; do bash bash/pipeline.sh $q $k; done; done'"

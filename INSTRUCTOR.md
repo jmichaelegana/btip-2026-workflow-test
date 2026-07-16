@@ -72,15 +72,37 @@ pixi run nextflow run nextflow/main.nf -profile local -resume
 ### 3. Session Prep Checklist
 
 - [ ] Test demo end-to-end on the presentation machine
-- [ ] Pre-build the slide PDF (`cd deck && make`)
-- [ ] Create the exit ticket Google Form (3 questions, see the Exit Ticket slide)
-- [ ] Check room WiFi — interns need to clone the repo or receive USB
-- [ ] Alternative: pre-distribute repo on USB drives (no network dependency)
-- [ ] Open 3 terminal windows: one for bash, one for Snakemake, one for Nextflow
-- [ ] Pre-cd each terminal into the demo directory
-- [ ] Check projector resolution (16:9)
-- [ ] Pre-generate `dag.png` for the slides: `mkdir -p deck/media && pixi run snakemake --dag | pixi run dot -Tpng > deck/media/dag.png`
-- [ ] Print 1-page command reference (see below)
+- [ ] Pre-build the slide PDF: `pixi run render-deck`
+- [ ] Print 1-page command reference: `pixi run print-cheatsheet` (output: `deck/cheatsheet.pdf`)
+- [ ] Pre-generate DAG for slides: `pixi run dag-slide` (output: `deck/media/dag.png`)
+
+### 3.5. Exit Ticket Google Form
+
+Create a Google Form with these 3 questions. Settings: collect email (optional), limit to 1 response.
+
+**Question 1** (Multiple choice):
+```
+Which tool would you choose for...
+  a) A one-off quick analysis?
+     ○ bash   ○ Snakemake   ○ Nextflow
+  b) A long-term research project?
+     ○ bash   ○ Snakemake   ○ Nextflow
+```
+
+**Question 2** (Short answer):
+```
+If you could sweep another parameter in this pipeline
+(not qc or kmer), what would you investigate and why?
+___________________________________________
+```
+
+**Question 3** (Paragraph):
+```
+What's still confusing? (Be honest — this helps
+us improve future sessions.)
+___________________________________________
+_____
+```
 
 ### 4. Command Reference Cheat Sheet
 

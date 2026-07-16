@@ -98,6 +98,7 @@ pixi run snakemake -s snakemake/Snakefile --cores 2 --rerun-incomplete  # resume
 === NEXTFLOW ===
 pixi run nextflow run nextflow/main.nf -profile local             # full run
 pixi run nextflow run nextflow/main.nf -profile local -resume     # resume
+pixi run nextflow run nextflow/main.nf -profile slurm             # HPC/SLURM (CFB cluster)
 ```
 
 ---
@@ -112,8 +113,8 @@ pixi run nextflow run nextflow/main.nf -profile local -resume     # resume
 | Bash hands-on (slide #7) | 15 min | 0:10-0:25 | Walk the room. Help stuck interns. Don't fix everything — the "pain" is intentional. |
 | Bash discussion (slide #8) | 5 min | 0:25-0:30 | "What was hard?" Let THEM articulate pain points before you show the next slide. |
 | Snakemake reveal (slides #9-11) | 20 min | 0:30-0:50 | Show dry-run first. Then DAG. Then full run. The `--dag` visualization = the "wow." |
-| Nextflow reveal (slides #12-14) | 20 min | 0:50-1:10 | Start with `-resume` demo (ctrl-c, re-run). Channels are abstract; resume is concrete. |
-| Compare + close (slides #15-19) | 10 min | 1:10-1:20 | Side-by-side table. Triad callback. Exit ticket link. |
+| Nextflow reveal (slides #12-15) | 20 min | 0:50-1:10 | Start with `-resume` demo (ctrl-c, re-run). Channels are abstract; resume is concrete. Slide #15 (SLURM) is aspirational — show config, explain the concept. |
+| Compare + close (slides #16-20) | 10 min | 1:10-1:20 | Side-by-side table (includes HPC row). Triad callback. Exit ticket link. |
 | Buffer | 10 min | 1:20-1:30 | Overflow Q&A. Help lingering interns. |
 
 ### Live Demo Demonstrations
@@ -125,6 +126,7 @@ pixi run nextflow run nextflow/main.nf -profile local -resume     # resume
 | **Snakemake resume** | Start run → `ps aux \| grep spades` → kill PID → `pixi run snakemake --rerun-incomplete` | "It only redoes what failed. No wasted computation." |
 | **Nextflow resume** | `pixi run nextflow run -profile local` → Ctrl-C → `pixi run nextflow run -profile local -resume` | "Green checkmarks = cached. It picks up exactly where it stopped." |
 | **Nextflow reports** | Open `results/nextflow/dag.svg` | "Nextflow generates reports automatically — DAG, timeline, execution report." |
+| **Nextflow SLURM** | Show `nextflow.config` slurm profile | "Same pipeline, same code. One profile change = it submits to the cluster. Bash cannot do this at all." |
 
 ### Common Student Confusion Points
 
@@ -135,6 +137,7 @@ pixi run nextflow run nextflow/main.nf -profile local -resume     # resume
 | "This seems complicated for 9 runs." | "It is. The point isn't 9 — it's 90. Or 900. The bash approach breaks at 9. The workflow manager doesn't break at 900." |
 | "Snakemake or Nextflow?" | "Snakemake if your team knows Python. Nextflow if you need cloud-native scale. Both are fine. Both are better than bash loops." |
 | "Do I need to learn both?" | "Pick one. The concepts transfer. If you learn Snakemake first, Nextflow takes a day to pick up." |
+| "Can I run this on the HPC?" | "Yes — `-profile slurm`. Nextflow submits jobs to SLURM automatically. No code changes needed. That's slide #15." |
 
 ### Tactical Notes
 

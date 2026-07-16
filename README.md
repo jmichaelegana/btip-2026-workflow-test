@@ -116,8 +116,11 @@ Results land in `results/snakemake/q{value}_k{value}/`.
 ## 3. Nextflow
 
 ```bash
-# Full run
+# Local run
 pixi run nextflow run nextflow/main.nf -profile local
+
+# HPC / SLURM run (CFB cluster, BTIP reservation)
+pixi run nextflow run nextflow/main.nf -profile slurm
 
 # Resume after interruption
 pixi run nextflow run nextflow/main.nf -profile local -resume
@@ -132,6 +135,7 @@ Results land in `results/nextflow/q{value}_k{value}/`.
 **What Nextflow gives you:**
 - Channel cartesian product: `qc_ch.combine(kmer_ch)` = all 9 combos
 - `-resume`: cached processes skip re-computation
+- `-profile slurm`: native SLURM integration — same pipeline, one config line
 - `publishDir`: clean output per parameter combo
 - Built-in reports: DAG (`dag.svg`), timeline (`timeline.html`), execution report (`report.html`) — all in `results/nextflow/`
 - View the DAG: `pixi run dag-nextflow` or open `results/nextflow/dag.svg`

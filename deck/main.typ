@@ -551,8 +551,58 @@ process TRIM {
   Snakemake gives you `--dag`. Nextflow gives you all three for free with every run.
 ]
 
+== Nextflow — HPC / SLURM
+
+#v(0.2em)
+
+#text(size: 0.75em, fill: ink)[Same pipeline, same code — just change the executor.]
+
+#v(0.4em)
+
+#block(inset: 0.5em, radius: 4pt, fill: rgb("#f4f4f4"), stroke: ink.lighten(50%) + 0.5pt)[
+#set text(size: 0.67em, font: "Source Code Pro", fill: ink)
+```groovy
+profiles {
+  slurm {
+    process {
+      executor       = 'slurm'
+      clusterOptions = '--reservation=btip2026'
+    }
+    executor { queueSize = 10 }
+  }
+}
+```
+]
+
+#v(0.4em)
+
+#text(size: 0.82em, fill: ink, font: "Source Code Pro")[
+  nextflow run main.nf -profile slurm
+]
+
+#v(0.5em)
+
+#grid(columns: (auto, 1fr), column-gutter: 0.5em, row-gutter: 0.3em,
+  text(size: 0.80em, fill: pgc-purple)[#text(weight: "bold")[One flag.]
+    #v(0.15em)
+    #text(size: 0.75em, fill: ink)[`-profile slurm` = 27 jobs submitted to the cluster automatically.]],
+  text(size: 0.80em, fill: pgc-purple)[#text(weight: "bold")[No code change.]
+    #v(0.15em)
+    #text(size: 0.75em, fill: ink)[Process definitions stay the same. Executor handles the scheduling.]],
+  text(size: 0.80em, fill: pgc-purple)[#text(weight: "bold")[Throttled.]
+    #v(0.15em)
+    #text(size: 0.75em, fill: ink)[`queueSize = 10` — max 10 concurrent SLURM jobs. Cluster stays happy.]],
+  text(size: 0.80em, fill: pgc-purple)[#text(weight: "bold")[Bash can't do this.]
+    #v(0.15em)
+    #text(size: 0.75em, fill: ink)[No loop = no SLURM. Snakemake needs `--cluster`. Nextflow just works.]],
+)
+
+#v(0.5em)
+
+#takeaway[Write once. Run on your laptop or a 1000-node cluster. Same code.]
+
 // =============================================================================
-// 5. COMPARE + CLOSE (slides 15–18, 10 min + 15 buffer)
+// 5. COMPARE + CLOSE (slides 16–20, 10 min + 15 buffer)
 // =============================================================================
 
 == Side-by-Side Comparison
@@ -570,6 +620,7 @@ process TRIM {
   [*Parallelism*], comparison-cell(inset: 0.25em)[#text(size: 0.78em, fill: accent-gold)[manual `&` / xargs]], comparison-cell(inset: 0.25em)[#text(size: 0.78em, fill: pgc-purple)[`--cores N`]], comparison-cell(inset: 0.25em)[#text(size: 0.78em, fill: pgc-purple)[automatic]],
   [*DAG*], comparison-cell(inset: 0.25em)[#text(size: 0.78em, fill: accent-gold)[none]], comparison-cell(inset: 0.25em)[#text(size: 0.78em, fill: pgc-purple)[`--dag` + dot]], comparison-cell(inset: 0.25em)[#text(size: 0.78em, fill: pgc-purple)[built-in SVG + reports]],
   [*Config*], comparison-cell(inset: 0.25em)[#text(size: 0.78em, fill: accent-gold)[variables in script]], comparison-cell(inset: 0.25em)[#text(size: 0.78em, fill: pgc-purple)[config.yaml]], comparison-cell(inset: 0.25em)[#text(size: 0.78em, fill: pgc-purple)[nextflow.config]],
+  [*HPC / SLURM*], comparison-cell(inset: 0.25em)[#text(size: 0.78em, fill: accent-gold)[cannot — no scheduler integration]], comparison-cell(inset: 0.25em)[#text(size: 0.78em, fill: pgc-purple)[`--cluster` flag \\ + custom script]], comparison-cell(inset: 0.25em)[#text(size: 0.78em, fill: pgc-purple)[native: `-profile slurm` \\ one line in config]],
   [*Traceability*], comparison-cell(inset: 0.25em)[#text(size: 0.78em, fill: accent-gold)[directory names only]], comparison-cell(inset: 0.25em)[#text(size: 0.78em, fill: pgc-purple)[wildcard paths]], comparison-cell(inset: 0.25em)[#text(size: 0.78em, fill: pgc-purple)[publishDir + reports]],
   [*Learning curve*], comparison-cell(inset: 0.25em)[#text(size: 0.78em, fill: ink)[zero]], comparison-cell(inset: 0.25em)[#text(size: 0.78em, fill: ink)[moderate \ Python-friendly]], comparison-cell(inset: 0.25em)[#text(size: 0.78em, fill: ink)[moderate \ cloud-native]],
 )

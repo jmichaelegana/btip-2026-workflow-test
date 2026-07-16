@@ -97,6 +97,7 @@ pixi run snakemake -s snakemake/Snakefile --cores 2
 pixi run snakemake -s snakemake/Snakefile --dag | \
   pixi run dot -Tpng -o dag.png && xdg-open dag.png   # Linux
 # open dag.png                                         # macOS
+# Or use the shortcut: pixi run dag-snakemake
 
 # Re-run only failed/incomplete jobs
 pixi run snakemake -s snakemake/Snakefile --cores 2 --rerun-incomplete
@@ -132,7 +133,8 @@ Results land in `results/nextflow/q{value}_k{value}/`.
 - Channel cartesian product: `qc_ch.combine(kmer_ch)` = all 9 combos
 - `-resume`: cached processes skip re-computation
 - `publishDir`: clean output per parameter combo
-- Built-in reports: DAG, timeline, execution report (in `results/nextflow/`)
+- Built-in reports: DAG (`dag.svg`), timeline (`timeline.html`), execution report (`report.html`) — all in `results/nextflow/`
+- View the DAG: `pixi run dag-nextflow` or open `results/nextflow/dag.svg`
 
 ---
 

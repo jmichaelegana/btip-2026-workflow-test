@@ -8,3 +8,5 @@ work/
 .nextflow*
 .nextflow.log*
 deck/fonts/
+dag.png
+dag.svg

@@ -11,7 +11,9 @@ run-bash = "bash bash/pipeline.sh"
 run-bash-sweep = "bash -c 'for q in 15 20 25; do for k in 21 33 55; do bash bash/pipeline.sh $q $k; done; done'"
 run-snakemake = "snakemake -s snakemake/Snakefile --cores 2 --latency-wait 30"
 run-snakemake-dry = "snakemake -s snakemake/Snakefile --cores 2 --dry-run"
-run-nextflow = "./.pixi/envs/default/bin/nextflow run nextflow/main.nf -profile local"
+dag-snakemake = "bash -c 'snakemake -s snakemake/Snakefile --dag | dot -Tpng -o dag.png && echo DAG saved to dag.png'"
+run-nextflow = "./.pixi/envs/default/bin/nextflow run nextflow/main.nf -profile local && ./.pixi/envs/default/bin/dot -Tsvg results/nextflow/dag.dot -o results/nextflow/dag.svg && echo DAG saved to results/nextflow/dag.svg"
+dag-nextflow = "./.pixi/envs/default/bin/dot -Tsvg results/nextflow/dag.dot -o results/nextflow/dag.svg && xdg-open results/nextflow/dag.svg"
 download-data = "bash scripts/download_data.sh"
 
 [dependencies]

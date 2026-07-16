@@ -782,37 +782,41 @@ profiles {
 
 == Exit Ticket + Resources
 
-#grid(columns: (1fr, 1fr), column-gutter: 0.8em, align: top)[
+#place(top + right, dx: -0.5em, dy: 0.5em)[
+  #tiaoma.barcode(
+    "https://forms.gle/2Sj2PC2qBw4nhnJYA",
+    "QRCode",
+    options: (scale: 2.5)
+  )
+  #v(0.1em)
+  #text(size: 0.60em, fill: pgc-purple, weight: "bold")[Scan for exit ticket]
+]
 
-  #v(0.3em)
-  #text(size: 0.80em, weight: "bold", fill: pgc-purple)[Three questions before you go:]
-  #v(0.3em)
-  #set text(size: 0.80em, fill: ink)
-  + Which tool would you choose for a one-off quick analysis? For a long-term project?
-  + If you could sweep another parameter in this pipeline, what would you investigate?
-  + What's still confusing?
-  #set text(size: 1em)
-  #v(0.4em)
-  #text(size: 0.80em, weight: "bold", fill: pgc-purple)[Resources:]
-  #set text(size: 0.76em, fill: ink)
-  + *Repo:* github.com/jmichaelegana/btip-2026-workflow-test
-  + *Snakemake:* snakemake.readthedocs.io
-  + *Nextflow:* nextflow.io \| nf-co.re
-  + *This deck:* in `deck/main.pdf`
-  #set text(size: 1em)
-  #v(0.4em)
-  #text(size: 0.82em, fill: accent-gold, weight: "bold")[Thank you! Questions?]
-,
+#v(0.3em)
 
-  #align(center + horizon)[
-    #block(inset: 0.3em, radius: 4pt, stroke: pgc-purple + 0.5pt)[
-      #tiaoma.barcode(
-        "https://forms.gle/2Sj2PC2qBw4nhnJYA",
-        "QRCode",
-        options: (scale: 3.5)
-      )
-    ]
-    #v(0.25em)
-    #text(size: 0.70em, fill: pgc-purple, weight: "bold")[Scan for exit ticket]
-  ]
+#text(size: 0.80em, weight: "bold", fill: pgc-purple)[Three questions before you go:]
+
+#v(0.3em)
+
+#set text(size: 0.82em, fill: ink)
++ Which tool would you choose for a one-off quick analysis? For a long-term project?
++ If you could sweep another parameter in this pipeline, what would you investigate?
++ What's still confusing?
+#set text(size: 1em)
+
+#v(0.5em)
+
+#text(size: 0.80em, weight: "bold", fill: pgc-purple)[Resources:]
+
+#set text(size: 0.78em, fill: ink)
++ *Repo:* github.com/jmichaelegana/btip-2026-workflow-test
++ *Snakemake:* snakemake.readthedocs.io
++ *Nextflow:* nextflow.io \| nf-co.re
++ *This deck:* in `deck/main.pdf`
+#set text(size: 1em)
+
+#v(0.6em)
+
+#text(size: 0.82em, fill: accent-gold, weight: "bold")[
+  Thank you! Questions?
 ]

@@ -43,32 +43,32 @@ pixi install
 
 # Generate data (if not bundled) — downloads E. coli genome + synthesizes reads
 # Reads are bundled in data/reads/ so this is optional
-bash scripts/download_data.sh
+pixi run bash scripts/download_data.sh
 ```
 
 ## Verify Everything Works
 
 ```bash
 # 1. Bash — single combo (~60 sec)
-bash bash/pipeline.sh 20 33
+pixi run bash bash/pipeline.sh 20 33
 ls results/bash/q20_k33/spades/contigs.fasta
 
 # 2. Snakemake dry-run
-snakemake -s snakemake/Snakefile --cores 2 --dry-run
+pixi run snakemake -s snakemake/Snakefile --cores 2 --dry-run
 
 # 3. Snakemake full run (~3-5 min)
-snakemake -s snakemake/Snakefile --cores 2
+pixi run snakemake -s snakemake/Snakefile --cores 2
 
 # 4. Snakemake resume test
 # Start run, kill mid-way (ctrl-c), then:
-snakemake -s snakemake/Snakefile --cores 2 --rerun-incomplete
+pixi run snakemake -s snakemake/Snakefile --cores 2 --rerun-incomplete
 
 # 5. Nextflow full run (~3-5 min)
-nextflow run nextflow/main.nf -profile local
+pixi run nextflow run nextflow/main.nf -profile local
 
 # 6. Nextflow resume test
 # Ctrl-c during ASSEMBLE, then:
-nextflow run nextflow/main.nf -profile local -resume
+pixi run nextflow run nextflow/main.nf -profile local -resume
 
 # 7. Build slides
 cd deck && make && cd ..
@@ -146,9 +146,9 @@ cd deck && make && open main.pdf   # or xdg-open main.pdf on Linux
 git clone <repo-url> && cd up-pgc-btip-workflow-managers && pixi install
 
 # 3. Demo session (see INSTRUCTOR.md for timing)
-bash bash/pipeline.sh 20 33            # 1 combo
-snakemake -s snakemake/Snakefile -c 4  # all 9 combos
-nextflow run nextflow/main.nf -profile local  # alternative
+pixi run bash bash/pipeline.sh 20 33            # 1 combo
+pixi run snakemake -s snakemake/Snakefile --cores 2  # all 9 combos
+pixi run nextflow run nextflow/main.nf -profile local  # alternative
 ```
 
 ## Data Regeneration
@@ -156,7 +156,7 @@ nextflow run nextflow/main.nf -profile local  # alternative
 If the bundled reads are lost or corrupt:
 
 ```bash
-bash scripts/download_data.sh
+pixi run bash scripts/download_data.sh
 # Downloads E. coli K-12 MG1655 genome (~1.3 MB)
 # Generates 154K paired reads at 10x coverage (~15 MB FASTQ)
 # Pure Python stdlib — no extra deps needed for generation

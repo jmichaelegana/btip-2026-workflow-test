@@ -30,12 +30,14 @@ cd btip-2026-workflow-test
 pixi install
 ```
 
+> **Important:** All demo tools (fastp, spades, quast, snakemake, nextflow) live inside pixi's environment — they are NOT in your system PATH. Prefix every command with `pixi run` to use them.
+
 ### If you need data
 
 Reads are bundled in `data/reads/`. If missing, generate them:
 
 ```bash
-bash scripts/download_data.sh
+pixi run bash scripts/download_data.sh
 ```
 
 This downloads the E. coli K-12 genome (~5 MB) and generates synthetic paired-end reads (~10x coverage).
@@ -56,14 +58,16 @@ Each cell: trim reads (`fastp -q <QC>`) → assemble (`spades -k <kmer>`) → ev
 
 ```bash
 # Run one combo (~60 sec)
-bash bash/pipeline.sh 20 33
+pixi run bash bash/pipeline.sh 20 33
 
 # Run all 9 combos
+pixi run bash -c '
 for q in 15 20 30; do
   for k in 21 33 55; do
     bash bash/pipeline.sh $q $k
   done
 done
+'
 ```
 
 Results land in `results/bash/q{value}_k{value}/`.
@@ -80,16 +84,17 @@ Results land in `results/bash/q{value}_k{value}/`.
 
 ```bash
 # Dry run — see what would execute
-snakemake -s snakemake/Snakefile --cores 2 --dry-run
+pixi run snakemake -s snakemake/Snakefile --cores 2 --dry-run
 
 # Full run
-snakemake -s snakemake/Snakefile --cores 2
+pixi run snakemake -s snakemake/Snakefile --cores 2
 
 # Visualize the DAG
-snakemake -s snakemake/Snakefile --dag | dot -Tpng -o dag.png && open dag.png
+pixi run snakemake -s snakemake/Snakefile --dag | \
+  pixi run dot -Tpng -o dag.png && xdg-open dag.png
 
 # Re-run only failed/incomplete jobs
-snakemake -s snakemake/Snakefile --cores 2 --rerun-incomplete
+pixi run snakemake -s snakemake/Snakefile --cores 2 --rerun-incomplete
 ```
 
 Results land in `results/snakemake/q{value}_k{value}/`.
@@ -106,13 +111,14 @@ Results land in `results/snakemake/q{value}_k{value}/`.
 
 ```bash
 # Full run
-nextflow run nextflow/main.nf -profile local
+pixi run nextflow run nextflow/main.nf -profile local
 
 # Resume after interruption
-nextflow run nextflow/main.nf -profile local -resume
+pixi run nextflow run nextflow/main.nf -profile local -resume
 
 # Change parameters
-nextflow run nextflow/main.nf -profile local --qc_values "[15,20,30]" --kmer_values "[21,33,55]"
+pixi run nextflow run nextflow/main.nf -profile local \
+  --qc_values "[15,20,30]" --kmer_values "[21,33,55]"
 ```
 
 Results land in `results/nextflow/q{value}_k{value}/`.
@@ -128,7 +134,7 @@ Results land in `results/nextflow/q{value}_k{value}/`.
 ## Compare Results
 
 ```bash
-# Compare QUAST N50 across all runs
+# Compare QUAST N50 across all runs (no pixi needed — uses system find/grep)
 find results -name "report.tsv" | head -5 | xargs head -1
 find results -name "report.tsv" | while read f; do
   n50=$(grep "N50" "$f" | head -1)

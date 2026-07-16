@@ -15,28 +15,28 @@ pixi install
 ls -lh data/reads/sample_R1.fastq.gz
 
 # Test bash — one combo (~60 sec)
-bash bash/pipeline.sh 20 33
+pixi run bash bash/pipeline.sh 20 33
 ls results/bash/q20_k33/spades/contigs.fasta
 ls results/bash/q20_k33/quast/report.tsv
 
 # Test Snakemake dry-run
-snakemake -s snakemake/Snakefile --cores 2 --dry-run
+pixi run snakemake -s snakemake/Snakefile --cores 2 --dry-run
 # Should show: Job stats: 28 jobs (1 count + 9 trim + 9 assemble + 9 evaluate)
 # Or: 27 (rule all's 9 inputs + 9 trim + 9 assemble + 9 evaluate)
 
 # Test Snakemake full run (~3-5 min)
-snakemake -s snakemake/Snakefile --cores 2
+pixi run snakemake -s snakemake/Snakefile --cores 2
 
 # Test Snakemake resume
 # Kill one SPAdes run mid-way, then:
-snakemake -s snakemake/Snakefile --cores 2 --rerun-incomplete
+pixi run snakemake -s snakemake/Snakefile --cores 2 --rerun-incomplete
 
 # Test Nextflow full run (~3-5 min)
-nextflow run nextflow/main.nf -profile local
+pixi run nextflow run nextflow/main.nf -profile local
 
 # Test Nextflow resume
 # Ctrl-c during ASSEMBLE, then:
-nextflow run nextflow/main.nf -profile local -resume
+pixi run nextflow run nextflow/main.nf -profile local -resume
 ```
 
 ### 2. Common Failures and Fixes
@@ -61,25 +61,25 @@ nextflow run nextflow/main.nf -profile local -resume
 - [ ] Open 3 terminal windows: one for bash, one for Snakemake, one for Nextflow
 - [ ] Pre-cd each terminal into the demo directory
 - [ ] Check projector resolution (16:9)
-- [ ] Pre-generate `dag.png` for the slides (`snakemake --dag | dot -Tpng > deck/media/dag.png`)
+- [ ] Pre-generate `dag.png` for the slides (`pixi run snakemake --dag | pixi run dot -Tpng > deck/media/dag.png`)
 - [ ] Print 1-page command reference (see below)
 
 ### 4. Command Reference Cheat Sheet
 
 ```
 === BASH ===
-bash bash/pipeline.sh 20 33              # single run
-for q in 15 20 30; do for k in 21 33 55; do bash bash/pipeline.sh $q $k; done; done  # all 9
+pixi run bash bash/pipeline.sh 20 33              # single run
+pixi run bash -c 'for q in 15 20 30; do for k in 21 33 55; do bash bash/pipeline.sh $q $k; done; done'  # all 9
 
 === SNAKEMAKE ===
-snakemake -s snakemake/Snakefile --cores 2 --dry-run   # preview
-snakemake -s snakemake/Snakefile --cores 2              # full run
-snakemake -s snakemake/Snakefile --dag | dot -Tpng > dag.png  # DAG
-snakemake -s snakemake/Snakefile --cores 2 --rerun-incomplete  # resume
+pixi run snakemake -s snakemake/Snakefile --cores 2 --dry-run   # preview
+pixi run snakemake -s snakemake/Snakefile --cores 2              # full run
+pixi run snakemake -s snakemake/Snakefile --dag | pixi run dot -Tpng > dag.png  # DAG
+pixi run snakemake -s snakemake/Snakefile --cores 2 --rerun-incomplete  # resume
 
 === NEXTFLOW ===
-nextflow run nextflow/main.nf -profile local             # full run
-nextflow run nextflow/main.nf -profile local -resume     # resume
+pixi run nextflow run nextflow/main.nf -profile local             # full run
+pixi run nextflow run nextflow/main.nf -profile local -resume     # resume
 ```
 
 ---
@@ -103,9 +103,9 @@ nextflow run nextflow/main.nf -profile local -resume     # resume
 | Demo | Commands | What to say |
 |---|---|---|
 | **Bash pain** | `ls results/bash/` | "9 flat directories. Now imagine 90. Or 900. How do you compare N50?" |
-| **Snakemake DAG** | `snakemake --dag \| dot -Tpng > dag.png && open dag.png` | "This is your pipeline, visualized. Bash can't do this." |
-| **Snakemake resume** | Start run → `ps aux \| grep spades` → kill PID → `snakemake --rerun-incomplete` | "It only redoes what failed. No wasted computation." |
-| **Nextflow resume** | `nextflow run -profile local` → Ctrl-C → `nextflow run -profile local -resume` | "Green checkmarks = cached. It picks up exactly where it stopped." |
+| **Snakemake DAG** | `pixi run snakemake --dag \| pixi run dot -Tpng > dag.png && xdg-open dag.png` | "This is your pipeline, visualized. Bash can't do this." |
+| **Snakemake resume** | Start run → `ps aux \| grep spades` → kill PID → `pixi run snakemake --rerun-incomplete` | "It only redoes what failed. No wasted computation." |
+| **Nextflow resume** | `pixi run nextflow run -profile local` → Ctrl-C → `pixi run nextflow run -profile local -resume` | "Green checkmarks = cached. It picks up exactly where it stopped." |
 | **Nextflow reports** | Open `results/nextflow/dag.svg` | "Nextflow generates reports automatically — DAG, timeline, execution report." |
 
 ### Common Student Confusion Points

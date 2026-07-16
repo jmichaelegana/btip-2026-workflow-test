@@ -8,8 +8,8 @@ version = "0.1.0"
 
 [tasks]
 run-bash = "bash bash/pipeline.sh"
-run-bash-sweep = "bash -c 'for q in 15 20 30; do for k in 21 33 55; do bash bash/pipeline.sh $q $k; done; done'"
-run-snakemake = "snakemake -s snakemake/Snakefile --cores 2"
+run-bash-sweep = "bash -c 'for q in 15 20 25; do for k in 21 33 55; do bash bash/pipeline.sh $q $k; done; done'"
+run-snakemake = "snakemake -s snakemake/Snakefile --cores 2 --latency-wait 30"
 run-snakemake-dry = "snakemake -s snakemake/Snakefile --cores 2 --dry-run"
 run-nextflow = "./.pixi/envs/default/bin/nextflow run nextflow/main.nf -profile local"
 download-data = "bash scripts/download_data.sh"

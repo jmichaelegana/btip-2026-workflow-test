@@ -108,7 +108,7 @@
 #text(size: 0.78em, fill: ink)[
   You need to: \
   #set text(size: 0.78em)
-  - Trim at *3 quality thresholds* (15, 20, 30)
+  - Trim at *3 quality thresholds* (15, 20, 25)
   - Assemble with *3 k-mer sizes* (21, 33, 55)
   - Evaluate *all 9 results* with QUAST
 ]
@@ -178,7 +178,7 @@
   ),
   [*-q 15*], [fastp → spades → quast], [fastp → spades → quast], [fastp → spades → quast],
   [*-q 20*], [fastp → spades → quast], [fastp → spades → quast], [fastp → spades → quast],
-  [*-q 30*], [fastp → spades → quast], [fastp → spades → quast], [fastp → spades → quast],
+  [*-q 25*], [fastp → spades → quast], [fastp → spades → quast], [fastp → spades → quast],
 )
 
 #v(0.6em)
@@ -245,7 +245,7 @@
 
 #block(inset: 0.5em, radius: 4pt, fill: rgb("#f4f4f4"), stroke: ink.lighten(50%) + 0.5pt)[
   #text(size: 0.78em, fill: ink, font: "Source Code Pro")[
-    for q in 15 20 30; do \n\
+    for q in 15 20 25; do \n\
       for k in 21 33 55; do \n\
         bash bash/pipeline.sh $q $k \n\
       done \n\
@@ -307,7 +307,7 @@
 ```python
 rule all:
   input: expand("results/q{qc}_k{k}/quast/report.tsv",
-      qc=[15,20,30], k=[21,33,55])
+      qc=[15,20,25], k=[21,33,55])
 
 rule assemble:
   input: r1="results/q{qc}_k{k}/trimmed_R1.fastq.gz"
@@ -423,7 +423,7 @@ rule assemble:
 #block(inset: 0.5em, radius: 4pt, fill: rgb("#f4f4f4"), stroke: ink.lighten(50%) + 0.5pt)[
 #set text(size: 0.67em, font: "Source Code Pro", fill: ink)
 ```groovy
-qc_ch = Channel.from([15, 20, 30])
+qc_ch = Channel.from([15, 20, 25])
 kmer_ch = Channel.from([21, 33, 55])
 params_grid = qc_ch.combine(kmer_ch)
 
@@ -589,7 +589,7 @@ process TRIM {
   ),
   [*-q 15*], [N50 ~85K \ 120 contigs], [N50 ~140K \ 75 contigs], [N50 ~180K \ 58 contigs],
   [*-q 20*], [N50 ~90K \ 115 contigs], [N50 ~150K \ 68 contigs], [N50 ~195K \ 50 contigs],
-  [*-q 30*], [N50 ~60K \ 180 contigs], [N50 ~110K \ 90 contigs], [N50 ~150K \ 70 contigs],
+  [*-q 25*], [N50 ~75K \ 145 contigs], [N50 ~130K \ 79 contigs], [N50 ~170K \ 60 contigs],
 )
 
 #v(0.35em)
@@ -622,8 +622,8 @@ process TRIM {
   text(size: 0.78em, weight: "bold", fill: pgc-purple)[k=21 vs k=55:],
   text(size: 0.78em, fill: ink)[Smaller k-mers are more sensitive but less specific — De Bruijn graph connectivity changes.],
 
-  text(size: 0.78em, weight: "bold", fill: pgc-purple)[q=15 vs q=30:],
-  text(size: 0.78em, fill: ink)[Stringent QC reduces coverage but improves base quality — tradeoffs the algorithm must handle.],
+  text(size: 0.78em, weight: "bold", fill: pgc-purple)[q=15 vs q=25:],
+  text(size: 0.78em, fill: ink)[Stricter QC reduces coverage but improves base quality — tradeoffs the algorithm must handle.],
 )
 
 #v(0.4em)

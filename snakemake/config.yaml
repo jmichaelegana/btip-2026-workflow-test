@@ -2,7 +2,7 @@
 # pixi activates the environment so all tools (fastp, spades, quast)
 # are found in .pixi/envs/default/bin/
 
-qc_values: [15, 20, 30]
+qc_values: [15, 20, 25]
 kmer_values: [21, 33, 55]
 reads_dir: "data/reads"
 output_dir: "results/snakemake"

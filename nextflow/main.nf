@@ -5,10 +5,10 @@
  * Usage:
  *   nextflow run nextflow/main.nf -profile local
  *   nextflow run nextflow/main.nf -profile local -resume
- *   nextflow run nextflow/main.nf -profile local --qc_values "[15,20,30]" --kmer_values "[21,33,55]"
+ *   nextflow run nextflow/main.nf -profile local --qc_values "[15,20,25]" --kmer_values "[21,33,55]"
  */
 
-params.qc_values   = [15, 20, 30]
+params.qc_values   = [15, 20, 25]
 params.kmer_values = [21, 33, 55]
 params.reads_dir   = "data/reads"
 params.outdir      = "results/nextflow"

@@ -49,7 +49,7 @@ This downloads the E. coli K-12 genome (~1.3 MB) and generates synthetic paired-
 |---|---|---|---|
 | **-q 15** | | | |
 | **-q 20** | | | |
-| **-q 30** | | | |
+| **-q 25** | | | |
 
 Each cell: trim reads (`fastp -q <QC>`) → assemble (`spades -k <kmer>`) → evaluate (`quast`).
 
@@ -63,7 +63,7 @@ pixi run bash bash/pipeline.sh 20 33
 
 # Run all 9 combos — the bash way (nested loop, sequential)
 pixi run bash -c '
-for q in 15 20 30; do
+for q in 15 20 25; do
   for k in 21 33 55; do
     bash bash/pipeline.sh $q $k
   done
@@ -122,7 +122,7 @@ pixi run nextflow run nextflow/main.nf -profile local -resume
 
 # Change parameters
 pixi run nextflow run nextflow/main.nf -profile local \
-  --qc_values "[15,20,30]" --kmer_values "[21,33,55]"
+  --qc_values "[15,20,25]" --kmer_values "[21,33,55]"
 ```
 
 Results land in `results/nextflow/q{value}_k{value}/`.

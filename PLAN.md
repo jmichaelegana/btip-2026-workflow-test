@@ -114,7 +114,7 @@ To keep the demo safe on laptops (4+ GB RAM):
 ```
                    ┌─────────────────────────────────────────┐
                    │  Same 3×3 parameter sweep                │
-                   │  QC thresholds (15, 20, 30)              │
+                   │  QC thresholds (15, 20, 25)              │
                    │  k-mer sizes (21, 33, 55)                │
                    │  9 assembly results, each with QUAST     │
                    └────────┬────────────────────────────────┘

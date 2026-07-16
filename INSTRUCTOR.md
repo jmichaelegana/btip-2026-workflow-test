@@ -73,7 +73,7 @@ pixi run nextflow run nextflow/main.nf -profile local -resume
 ```
 === BASH ===
 pixi run bash bash/pipeline.sh 20 33              # single run
-pixi run bash -c 'for q in 15 20 30; do for k in 21 33 55; do bash bash/pipeline.sh $q $k; done; done'  # all 9
+pixi run bash -c 'for q in 15 20 25; do for k in 21 33 55; do bash bash/pipeline.sh $q $k; done; done'  # all 9
 
 === SNAKEMAKE ===
 pixi run snakemake -s snakemake/Snakefile --cores 2 --dry-run   # preview
@@ -116,7 +116,7 @@ pixi run nextflow run nextflow/main.nf -profile local -resume     # resume
 
 | Confusion | Response |
 |---|---|
-| "What's a wildcard?" | Show: `{qc}` in the filename → resolved to `15`, `20`, or `30` at runtime. |
+| "What's a wildcard?" | Show: `{qc}` in the filename → resolved to `15`, `20`, or `25` at runtime. |
 | "Why 3 tools? Just pick one." | "Different labs use different tools. The concepts transfer. Whichever you pick, it's better than bash for anything > 2 runs." |
 | "This seems complicated for 9 runs." | "It is. The point isn't 9 — it's 90. Or 900. The bash approach breaks at 9. The workflow manager doesn't break at 900." |
 | "Snakemake or Nextflow?" | "Snakemake if your team knows Python. Nextflow if you need cloud-native scale. Both are fine. Both are better than bash loops." |

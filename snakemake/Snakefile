@@ -33,7 +33,7 @@ rule assemble:
         contigs=f"{OUTDIR}/q{{qc}}_k{{k}}/spades/contigs.fasta",
     params:
         k=lambda wc: wc.k,
-        outdir=lambda wc: f"{OUTDIR}/q{{wc.qc}}_k{{wc.k}}/spades",
+        outdir=lambda wc: f"{OUTDIR}/q{wc.qc}_k{wc.k}/spades",
     input:
         r1=f"{OUTDIR}/q{{qc}}_k{{k}}/trimmed_R1.fastq.gz",
         r2=f"{OUTDIR}/q{{qc}}_k{{k}}/trimmed_R2.fastq.gz",
@@ -47,7 +47,7 @@ rule evaluate:
     output:
         report=f"{OUTDIR}/q{{qc}}_k{{k}}/quast/report.tsv",
     params:
-        outdir=lambda wc: f"{OUTDIR}/q{{wc.qc}}_k{{wc.k}}/quast",
+        outdir=lambda wc: f"{OUTDIR}/q{wc.qc}_k{wc.k}/quast",
     input:
         contigs=f"{OUTDIR}/q{{qc}}_k{{k}}/spades/contigs.fasta",
     shell:

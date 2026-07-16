@@ -7,13 +7,15 @@ platforms = ["linux-64", "osx-64"]
 version = "0.1.0"
 
 [tasks]
+render-deck = "typst compile deck/main.typ deck/main.pdf"
+watch-deck = "typst watch deck/main.typ deck/main.pdf"
 run-bash = "bash bash/pipeline.sh"
 run-bash-sweep = "bash -c 'for q in 15 20 25; do for k in 21 33 55; do bash bash/pipeline.sh $q $k; done; done'"
 run-snakemake = "snakemake -s snakemake/Snakefile --cores 2 --latency-wait 30"
 run-snakemake-dry = "snakemake -s snakemake/Snakefile --cores 2 --dry-run"
 dag-snakemake = "bash -c 'snakemake -s snakemake/Snakefile --dag | dot -Tpng -o dag.png && echo DAG saved to dag.png'"
 run-nextflow = "./.pixi/envs/default/bin/nextflow run nextflow/main.nf -profile local && ./.pixi/envs/default/bin/dot -Tsvg results/nextflow/dag.dot -o results/nextflow/dag.svg && echo DAG saved to results/nextflow/dag.svg"
-dag-nextflow = "./.pixi/envs/default/bin/dot -Tsvg results/nextflow/dag.dot -o results/nextflow/dag.svg && xdg-open results/nextflow/dag.svg"
+dag-nextflow = "./.pixi/envs/default/bin/dot -Tsvg results/nextflow/dag.dot -o results/nextflow/dag.svg"
 download-data = "bash scripts/download_data.sh"
 
 [dependencies]
@@ -23,3 +25,4 @@ quast = ">=5.2.0,<6"
 snakemake-minimal = ">=8.0.0,<9"
 nextflow = ">=24.0.0,<25"
 graphviz = ">=12.0.0,<13"
+typst = ">=0.14,<2"

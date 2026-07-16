@@ -723,7 +723,7 @@ profiles {
 
 #v(0.3em)
 
-#text(size: 0.70em, fill: accent-gold)[Features we didn't demo — but you should know they exist.]
+#text(size: 0.70em, fill: accent-gold)[Some features we didn't demo — there's much more to explore.]
 
 #v(0.4em)
 

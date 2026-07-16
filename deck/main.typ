@@ -782,16 +782,6 @@ profiles {
 
 == Exit Ticket + Resources
 
-#place(top + right, dx: -0.5em, dy: 0.5em)[
-  #tiaoma.barcode(
-    "https://forms.gle/2Sj2PC2qBw4nhnJYA",
-    "QRCode",
-    options: (scale: 2.5)
-  )
-  #v(0.1em)
-  #text(size: 0.60em, fill: pgc-purple, weight: "bold")[Scan for exit ticket]
-]
-
 #v(0.3em)
 
 #text(size: 0.80em, weight: "bold", fill: pgc-purple)[Three questions before you go:]
@@ -819,4 +809,18 @@ profiles {
 
 #text(size: 0.82em, fill: accent-gold, weight: "bold")[
   Thank you! Questions?
+]
+
+#place(
+  top + right,
+  dx: -1.5em,
+  dy: 3.5em,
+)[
+  #tiaoma.barcode(
+    "https://forms.gle/2Sj2PC2qBw4nhnJYA",
+    "QRCode",
+    options: (scale: 3.0)
+  )
+  #v(0.15em)
+  #text(size: 0.65em, fill: pgc-purple, weight: "bold")[Scan]
 ]

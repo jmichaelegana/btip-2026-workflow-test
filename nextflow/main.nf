@@ -47,8 +47,7 @@ process ASSEMBLE {
       -1 !{r1} -2 !{r2} \
       -k !{k} -o spades_out \
       --threads !{task.cpus} \
-      --memory !{task.memory.toGiga().toInteger()} \
-      --tmp-dir /tmp
+      --memory !{task.memory.toGiga().toInteger()}
     cp spades_out/contigs.fasta contigs.fasta
     '''
 }

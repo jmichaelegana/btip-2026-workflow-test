@@ -106,66 +106,61 @@
 
 == The Problem
 
-#v(0.8em)
+#v(0.3em)
 
-#text(size: 0.78em, fill: ink)[
-  You have paired-end reads from a bacterial isolate.
-]
+#text(size: 0.72em, fill: ink)[You have paired-end reads from a bacterial isolate.]
 
-#v(0.5em)
+#v(0.25em)
 
-#text(size: 0.78em, fill: ink)[
+#text(size: 0.72em, fill: ink)[
   You need to: \
-  #set text(size: 0.78em)
   - Trim at *3 quality thresholds* (15, 20, 25)
   - Assemble with *3 k-mer sizes* (21, 33, 55)
   - Evaluate *all 9 results* with QUAST
 ]
 
-#v(0.8em)
+#v(0.35em)
 
-#text(size: 0.8em, weight: "bold", fill: pgc-purple)[
-  How do you run all 9, compare results, and not lose track?
+#text(size: 0.78em, weight: "bold", fill: pgc-purple)[How do you run all 9, compare results, and not lose track?]
+
+#v(0.25em)
+
+#text(size: 0.75em, fill: accent-gold)[
+  → 9 assemblies. 9 QUAST runs. 9 outputs — your manuscript needs all of them documented and reproducible.
 ]
 
-#v(0.6em)
+#v(0.35em)
 
-#text(size: 0.82em, fill: accent-gold)[
-  → That's 9 assemblies. 9 QUAST runs. 9 sets of output to compare — and your manuscript needs all of them documented and reproducible.
-]
+#text(size: 0.78em, fill: ink)[Same pipeline, three orchestrators:]
 
-#v(0.8em)
+#v(0.15em)
 
-#text(size: 0.82em, fill: ink)[Same pipeline, three orchestrators:]
-
-#v(0.4em)
-
-#grid(columns: 4, column-gutter: 0.4em, row-gutter: 0.3em,
-  block(inset: 0.4em, radius: 4pt, fill: pgc-purple-light, stroke: pgc-purple + 0.8pt)[
-    #text(size: 0.75em, weight: "bold", fill: pgc-purple)[bash]
-    #v(0.1em)
-    #text(size: 0.67em, fill: ink)[manual loop \ no resume]
+#grid(columns: 4, column-gutter: 0.3em,
+  block(inset: 0.3em, radius: 4pt, fill: pgc-purple-light, stroke: pgc-purple + 0.8pt)[
+    #text(size: 0.70em, weight: "bold", fill: pgc-purple)[bash]
+    #v(0.05em)
+    #text(size: 0.62em, fill: ink)[manual loop \ no resume]
   ],
-  block(inset: 0.4em, radius: 4pt, fill: pgc-purple-light, stroke: pgc-purple + 0.8pt)[
-    #text(size: 0.75em, weight: "bold", fill: pgc-purple)[Snakemake]
-    #v(0.1em)
-    #text(size: 0.67em, fill: ink)[expand() \ --rerun-incomp]
+  block(inset: 0.3em, radius: 4pt, fill: pgc-purple-light, stroke: pgc-purple + 0.8pt)[
+    #text(size: 0.70em, weight: "bold", fill: pgc-purple)[Snakemake]
+    #v(0.05em)
+    #text(size: 0.62em, fill: ink)[expand() \ --rerun-incomp]
   ],
-  block(inset: 0.4em, radius: 4pt, fill: pgc-purple-light, stroke: pgc-purple + 0.8pt)[
-    #text(size: 0.75em, weight: "bold", fill: pgc-purple)[Nextflow]
-    #v(0.1em)
-    #text(size: 0.67em, fill: ink)[channels \ -resume]
+  block(inset: 0.3em, radius: 4pt, fill: pgc-purple-light, stroke: pgc-purple + 0.8pt)[
+    #text(size: 0.70em, weight: "bold", fill: pgc-purple)[Nextflow]
+    #v(0.05em)
+    #text(size: 0.62em, fill: ink)[channels \ -resume]
   ],
-  block(inset: 0.4em, radius: 4pt, fill: accent-gold.lighten(85%), stroke: accent-gold.darken(10%) + 0.8pt)[
-    #text(size: 0.75em, weight: "bold", fill: accent-gold)[compare]
-    #v(0.1em)
-    #text(size: 0.67em, fill: ink)[choose the \ right tool]
+  block(inset: 0.3em, radius: 4pt, fill: accent-gold.lighten(85%), stroke: accent-gold.darken(10%) + 0.8pt)[
+    #text(size: 0.70em, weight: "bold", fill: accent-gold)[compare]
+    #v(0.05em)
+    #text(size: 0.62em, fill: ink)[choose the \ right tool]
   ],
 )
 
-#v(0.4em)
+#v(0.2em)
 
-#text(size: 0.75em, fill: accent-gold)[
+#text(size: 0.70em, fill: accent-gold)[
   → Progressive reveal: feel the pain of bash first, then see why managers exist.
 ]
 
@@ -559,14 +554,14 @@ process TRIM {
 
 == Bonus: HPC / SLURM
 
-#v(0.2em)
+#v(0.15em)
 
-#text(size: 0.72em, fill: accent-gold)[I know Nextflow best, so I'll demo with it. Snakemake does this too (`--cluster`).]
+#text(size: 0.67em, fill: accent-gold)[I know Nextflow best, so I'll demo with it. Snakemake does this too (`--cluster`).]
 
-#v(0.4em)
+#v(0.25em)
 
-#block(inset: 0.5em, radius: 4pt, fill: rgb("#f4f4f4"), stroke: ink.lighten(50%) + 0.5pt)[
-#set text(size: 0.67em, font: "Source Code Pro", fill: ink)
+#block(inset: 0.4em, radius: 4pt, fill: rgb("#f4f4f4"), stroke: ink.lighten(50%) + 0.5pt)[
+#set text(size: 0.58em, font: "Source Code Pro", fill: ink)
 ```groovy
 profiles {
   slurm {
@@ -580,30 +575,22 @@ profiles {
 ```
 ]
 
-#v(0.4em)
+#v(0.2em)
 
-#text(size: 0.82em, fill: ink, font: "Source Code Pro")[
+#text(size: 0.75em, fill: ink, font: "Source Code Pro")[
   nextflow run main.nf -profile slurm
 ]
 
-#v(0.5em)
+#v(0.3em)
 
-#grid(columns: (auto, 1fr), column-gutter: 0.5em, row-gutter: 0.3em,
-  text(size: 0.80em, fill: pgc-purple)[#text(weight: "bold")[One flag.]
-    #v(0.15em)
-    #text(size: 0.75em, fill: ink)[`-profile slurm` = 27 jobs submitted to the cluster automatically.]],
-  text(size: 0.80em, fill: pgc-purple)[#text(weight: "bold")[No code change.]
-    #v(0.15em)
-    #text(size: 0.75em, fill: ink)[Process definitions stay the same. Executor handles the scheduling.]],
-  text(size: 0.80em, fill: pgc-purple)[#text(weight: "bold")[Throttled.]
-    #v(0.15em)
-    #text(size: 0.75em, fill: ink)[`queueSize = 10` — max 10 concurrent SLURM jobs. Cluster stays happy.]],
-  text(size: 0.80em, fill: pgc-purple)[#text(weight: "bold")[Both do this.]
-    #v(0.15em)
-    #text(size: 0.75em, fill: ink)[Snakemake: `--cluster`. Nextflow: `-profile slurm`. Bash: cannot.]],
+#grid(columns: (auto, 1fr), column-gutter: 0.4em, row-gutter: 0.2em,
+  text(size: 0.72em, fill: pgc-purple)[#text(weight: "bold")[One flag.] #text(size: 0.67em, fill: ink)[`-profile slurm` = 27 jobs submitted to cluster.]],
+  text(size: 0.72em, fill: pgc-purple)[#text(weight: "bold")[No code change.] #text(size: 0.67em, fill: ink)[Process definitions stay the same. Executor handles scheduling.]],
+  text(size: 0.72em, fill: pgc-purple)[#text(weight: "bold")[Throttled.] #text(size: 0.67em, fill: ink)[`queueSize = 10` — max 10 concurrent SLURM jobs.]],
+  text(size: 0.72em, fill: pgc-purple)[#text(weight: "bold")[Both do this.] #text(size: 0.67em, fill: ink)[Snakemake: `--cluster`. Nextflow: `-profile slurm`. Bash: cannot.]],
 )
 
-#v(0.5em)
+#v(0.3em)
 
 #takeaway[Write once. Run on your laptop or on the cluster. Same code.]
 
@@ -613,28 +600,28 @@ profiles {
 
 == Side-by-Side Comparison
 
-#v(0.2em)
+#v(0.1em)
 
 #table(
-  columns: (1.2fr, 1.8fr, 1.8fr, 1.8fr),
+  columns: (1fr, 1.5fr, 1.5fr, 1.5fr),
   align: center + horizon,
-  inset: 0.4em,
+  inset: 0.2em,
   table.header(
     [], [*bash*], [*Snakemake*], [*Nextflow*],
   ),
-  [*Resume*], comparison-cell(inset: 0.25em)[#text(size: 0.78em, fill: accent-gold)[#text(weight: "bold")[none] \ restart from 0]], comparison-cell(inset: 0.25em)[#text(size: 0.78em, fill: pgc-purple)[`--rerun-incomplete` \ file watches]], comparison-cell(inset: 0.25em)[#text(size: 0.78em, fill: pgc-purple)[#text(weight: "bold")[-resume] \ hash-based]],
-  [*Parallelism*], comparison-cell(inset: 0.25em)[#text(size: 0.78em, fill: accent-gold)[manual `&` / xargs]], comparison-cell(inset: 0.25em)[#text(size: 0.78em, fill: pgc-purple)[`--cores N`]], comparison-cell(inset: 0.25em)[#text(size: 0.78em, fill: pgc-purple)[automatic]],
-  [*DAG*], comparison-cell(inset: 0.25em)[#text(size: 0.78em, fill: accent-gold)[none]], comparison-cell(inset: 0.25em)[#text(size: 0.78em, fill: pgc-purple)[`--dag` + dot]], comparison-cell(inset: 0.25em)[#text(size: 0.78em, fill: pgc-purple)[built-in SVG + reports]],
-  [*Config*], comparison-cell(inset: 0.25em)[#text(size: 0.78em, fill: accent-gold)[variables in script]], comparison-cell(inset: 0.25em)[#text(size: 0.78em, fill: pgc-purple)[config.yaml]], comparison-cell(inset: 0.25em)[#text(size: 0.78em, fill: pgc-purple)[nextflow.config]],
-  [*HPC / SLURM*], comparison-cell(inset: 0.25em)[#text(size: 0.78em, fill: accent-gold)[no scheduler integration]], comparison-cell(inset: 0.25em)[#text(size: 0.78em, fill: pgc-purple)[`--cluster` flag \\ + submit script]], comparison-cell(inset: 0.25em)[#text(size: 0.78em, fill: pgc-purple)[`-profile slurm` \\ native executor]],
-  [*Traceability*], comparison-cell(inset: 0.25em)[#text(size: 0.78em, fill: accent-gold)[directory names only]], comparison-cell(inset: 0.25em)[#text(size: 0.78em, fill: pgc-purple)[wildcard paths]], comparison-cell(inset: 0.25em)[#text(size: 0.78em, fill: pgc-purple)[publishDir + reports]],
-  [*Learning curve*], comparison-cell(inset: 0.25em)[#text(size: 0.78em, fill: ink)[zero]], comparison-cell(inset: 0.25em)[#text(size: 0.78em, fill: ink)[moderate \ Python-friendly]], comparison-cell(inset: 0.25em)[#text(size: 0.78em, fill: ink)[moderate \ cloud-native]],
+  [*Resume*], comparison-cell(inset: 0.15em)[#text(size: 0.72em, fill: accent-gold)[#text(weight: "bold")[none] \ restart from 0]], comparison-cell(inset: 0.15em)[#text(size: 0.72em, fill: pgc-purple)[`--rerun-incomplete` \ file watches]], comparison-cell(inset: 0.15em)[#text(size: 0.72em, fill: pgc-purple)[#text(weight: "bold")[-resume] \ hash-based]],
+  [*Parallelism*], comparison-cell(inset: 0.15em)[#text(size: 0.72em, fill: accent-gold)[manual `&` / xargs]], comparison-cell(inset: 0.15em)[#text(size: 0.72em, fill: pgc-purple)[`--cores N`]], comparison-cell(inset: 0.15em)[#text(size: 0.72em, fill: pgc-purple)[automatic]],
+  [*DAG*], comparison-cell(inset: 0.15em)[#text(size: 0.72em, fill: accent-gold)[none]], comparison-cell(inset: 0.15em)[#text(size: 0.72em, fill: pgc-purple)[`--dag` + dot]], comparison-cell(inset: 0.15em)[#text(size: 0.72em, fill: pgc-purple)[built-in SVG + reports]],
+  [*Config*], comparison-cell(inset: 0.15em)[#text(size: 0.72em, fill: accent-gold)[variables in script]], comparison-cell(inset: 0.15em)[#text(size: 0.72em, fill: pgc-purple)[config.yaml]], comparison-cell(inset: 0.15em)[#text(size: 0.72em, fill: pgc-purple)[nextflow.config]],
+  [*HPC / SLURM*], comparison-cell(inset: 0.15em)[#text(size: 0.72em, fill: accent-gold)[no scheduler integration]], comparison-cell(inset: 0.15em)[#text(size: 0.72em, fill: pgc-purple)[`--cluster` flag \\ + submit script]], comparison-cell(inset: 0.15em)[#text(size: 0.72em, fill: pgc-purple)[`-profile slurm` \\ native exec]],
+  [*Trace*], comparison-cell(inset: 0.15em)[#text(size: 0.72em, fill: accent-gold)[directory names only]], comparison-cell(inset: 0.15em)[#text(size: 0.72em, fill: pgc-purple)[wildcard paths]], comparison-cell(inset: 0.15em)[#text(size: 0.72em, fill: pgc-purple)[publishDir + reports]],
+  [*Learning*], comparison-cell(inset: 0.15em)[#text(size: 0.72em, fill: ink)[zero]], comparison-cell(inset: 0.15em)[#text(size: 0.72em, fill: ink)[moderate \ Python-friendly]], comparison-cell(inset: 0.15em)[#text(size: 0.72em, fill: ink)[moderate \ cloud-native]],
 )
 
-#v(0.3em)
+#v(0.15em)
 
-#text(size: 0.67em, fill: accent-gold)[
-  #text(weight: "bold", size: 0.78em)[Golden:] bash for tinkering. Snakemake for Python teams. Nextflow for cloud scale.
+#text(size: 0.65em, fill: accent-gold)[
+  #text(weight: "bold", size: 0.72em)[Golden:] bash for tinkering. Snakemake for Python teams. Nextflow for cloud scale.
 ]
 
 

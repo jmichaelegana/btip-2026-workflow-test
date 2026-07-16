@@ -7,8 +7,9 @@ platforms = ["linux-64", "osx-64"]
 version = "0.1.0"
 
 [tasks]
-render-deck = "typst compile deck/main.typ deck/main.pdf"
-watch-deck = "typst watch deck/main.typ deck/main.pdf"
+render-deck = "typst compile --font-path deck/fonts/ deck/main.typ deck/main.pdf"
+watch-deck = "typst watch --font-path deck/fonts/ deck/main.typ deck/main.pdf"
+setup-fonts = "bash scripts/setup_fonts.sh"
 run-bash = "bash bash/pipeline.sh"
 run-bash-sweep = "bash -c 'for q in 15 20 25; do for k in 21 33 55; do bash bash/pipeline.sh $q $k; done; done'"
 run-snakemake = "snakemake -s snakemake/Snakefile --cores 2 --latency-wait 30"

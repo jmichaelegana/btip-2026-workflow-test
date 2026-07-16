@@ -7,12 +7,30 @@
 curl -fsSL https://pixi.sh/install.sh | bash
 # restart shell or: source ~/.bashrc
 
-# typst (for slides, optional)
+# typst (for rendering slides)
 sudo dnf install -y typst
 
 # Graphviz (for Snakemake DAG visualization, optional)
 sudo dnf install -y graphviz
 ```
+
+## Slide Deck
+
+Only **typst** is needed to render `deck/main.typ`. All Typst packages (`touying`, `cetz`, `metropolis`) are auto-fetched by the compiler on first compile — no separate install.
+
+```bash
+cd deck
+make          # → main.pdf
+make watch    # live reload while editing
+```
+
+If `make` is unavailable:
+
+```bash
+typst compile --root . main.typ main.pdf
+```
+
+The deck uses the same PGC purple palette, Inter font, and `triad()` diagram as the bioinformatics algorithms lecture deck.
 
 ## Clone & Install
 

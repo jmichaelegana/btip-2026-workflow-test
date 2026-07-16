@@ -74,6 +74,7 @@ pixi run nextflow run nextflow/main.nf -profile local -resume
 - [ ] Test demo end-to-end on the presentation machine
 - [ ] Pre-build the slide PDF: `pixi run render-deck`
 - [ ] Print 1-page command reference: `pixi run print-cheatsheet` (output: `deck/cheatsheet.pdf`)
+- [ ] Print extended reference: `pixi run print-cheatsheet-extended` (output: `deck/cheatsheet-extended.pdf`, 2-page A4)
 - [ ] Pre-generate DAG for slides: `pixi run dag-slide` (output: `deck/media/dag.png`)
 
 ### 3.5. Exit Ticket Google Form
@@ -137,8 +138,8 @@ pixi run nextflow run nextflow/main.nf -profile slurm             # HPC/SLURM (C
 | Snakemake reveal (slides #9-11) | 20 min | 0:30-0:50 | Show dry-run first. Then DAG. Then full run. The `--dag` visualization = the "wow." |
 | Nextflow reveal (slides #12-14) | 18 min | 0:50-1:08 | Start with `-resume` demo (ctrl-c, re-run). Channels are abstract; resume is concrete. |
 | Bonus: HPC/SLURM (slide #15) | 2 min | 1:08-1:10 | Quick bonus. "I know Nextflow best. Snakemake does this too." Show the config, move on. |
-| Compare + close (slides #16-20) | 10 min | 1:10-1:20 | Side-by-side table (includes HPC row). Triad callback. Exit ticket link. |
-| Buffer | 10 min | 1:20-1:30 | Overflow Q&A. Help lingering interns. |
+| Compare + close (slides #16-21) | 12 min | 1:10-1:22 | Side-by-side table (includes HPC row). Beyond Today (slide #20, power features not demoed). Triad callback. Exit ticket link. |
+| Buffer | 8 min | 1:22-1:30 | Overflow Q&A. Help lingering interns. |
 
 ### Live Demo Demonstrations
 
@@ -150,6 +151,7 @@ pixi run nextflow run nextflow/main.nf -profile slurm             # HPC/SLURM (C
 | **Nextflow resume** | `pixi run nextflow run -profile local` → Ctrl-C → `pixi run nextflow run -profile local -resume` | "Green checkmarks = cached. It picks up exactly where it stopped." |
 | **Nextflow reports** | Open `results/nextflow/dag.svg` | "Nextflow generates reports automatically — DAG, timeline, execution report." |
 | **Nextflow SLURM** (bonus) | Show `nextflow.config` slurm profile | "I'm more comfortable with Nextflow. Snakemake does this too with `--cluster`. Both work." |
+| **Beyond Today** | Slide #20 — no live demo | "Containers, nf-core, cloud executors, checkpoint rules. This is what real research infrastructure looks like." |
 
 ### Common Student Confusion Points
 
@@ -161,6 +163,7 @@ pixi run nextflow run nextflow/main.nf -profile slurm             # HPC/SLURM (C
 | "Snakemake or Nextflow?" | "Snakemake if your team knows Python. Nextflow if you need cloud-native scale. Both are fine. Both are better than bash loops." |
 | "Do I need to learn both?" | "Pick one. The concepts transfer. If you learn Snakemake first, Nextflow takes a day to pick up." |
 | "Can I run this on the HPC?" | "Yes — `-profile slurm`. Nextflow submits jobs to SLURM automatically. No code changes needed. That's slide #15." |
+| "What else can these tools do?" | "Check the extended cheat sheet and slide #20 — containers, nf-core, cloud executors, checkpoint rules. We barely scratched the surface." |
 
 ### Tactical Notes
 

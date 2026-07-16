@@ -602,7 +602,7 @@ profiles {
 #takeaway[Write once. Run on your laptop or on the cluster. Same code.]
 
 // =============================================================================
-// 5. COMPARE + CLOSE (slides 16–20, 10 min + 15 buffer)
+// 5. COMPARE + CLOSE (slides 16–21, 12 min + 15 buffer)
 // =============================================================================
 
 == Side-by-Side Comparison
@@ -725,6 +725,53 @@ profiles {
   Next session: the De Bruijn k-mer *autopsy* — why k=21 and k=55 produce different assemblies. \
   The *fault line* where algorithmic choice meets biological signal.
 ]
+
+== Beyond Today
+
+#v(0.3em)
+
+#text(size: 0.70em, fill: accent-gold)[Features we didn't demo — but you should know they exist.]
+
+#v(0.4em)
+
+#grid(columns: 2, column-gutter: 0.5em, row-gutter: 0.3em,
+
+  block(inset: 0.4em, radius: 4pt, fill: pgc-purple-light, stroke: pgc-purple + 0.5pt)[
+    #text(size: 0.80em, weight: "bold", fill: pgc-purple)[Both tools can do this]
+    #v(0.25em)
+    #grid(columns: (auto, 1fr), column-gutter: 0.3em, row-gutter: 0.2em,
+      text(size: 0.67em, fill: ink)[#text(weight: "bold")[Containers.]],
+      text(size: 0.67em, fill: ink)[Docker & Singularity. `--use-singularity` / `-with-docker`.],
+      text(size: 0.67em, fill: ink)[#text(weight: "bold")[Shared work dirs.]],
+      text(size: 0.67em, fill: ink)[Resume across users and machines — not just your laptop.],
+      text(size: 0.67em, fill: ink)[#text(weight: "bold")[Cluster executors.]],
+      text(size: 0.67em, fill: ink)[Both submit to SLURM/SGE/PBS. Nextflow: native profile. Snakemake: `--cluster` flag.],
+      text(size: 0.67em, fill: ink)[#text(weight: "bold")[Provenance.]],
+      text(size: 0.67em, fill: ink)[Snakemake `--report` (interactive HTML). Nextflow `trace.txt` (CSV of every job, every resource).],
+    )
+  ],
+
+  block(inset: 0.4em, radius: 4pt, fill: pgc-purple-light, stroke: pgc-purple + 0.5pt)[
+    #text(size: 0.80em, weight: "bold", fill: pgc-purple)[Unique to each]
+    #v(0.25em)
+    #grid(columns: (auto, 1fr), column-gutter: 0.3em, row-gutter: 0.2em,
+      text(size: 0.67em, weight: "bold", fill: ink)[Snakemake],
+      text(size: 0.67em, fill: ink)[`checkpoint` — DAG adapts mid-run based on output.],
+      text(size: 0.67em, fill: ink)[],
+      text(size: 0.67em, fill: ink)[`--report` — self-contained HTML with embedded results, tables, and figures.],
+      text(size: 0.67em, weight: "bold", fill: ink)[Nextflow],
+      text(size: 0.67em, fill: ink)[`nf-core` — 100+ ready-made community pipelines (rnaseq, sarek, ampliseq, mag…).],
+      text(size: 0.67em, fill: ink)[],
+      text(size: 0.67em, fill: ink)[Cloud executors — AWS Batch, Google Cloud, Azure. One line of config.],
+      text(size: 0.67em, fill: ink)[],
+      text(size: 0.67em, fill: ink)[Fusion file system — no staging, no data copying. Direct cloud object store access.],
+    )
+  ],
+)
+
+#v(0.35em)
+
+#takeaway[The 3×3 sweep? That's just the API. These features are the engine.]
 
 
 == Exit Ticket + Resources

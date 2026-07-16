@@ -1,3 +1,7 @@
+# Snakemake must be run via pixi: pixi run run-snakemake[-dry]
+# pixi activates the environment so all tools (fastp, spades, quast)
+# are found in .pixi/envs/default/bin/
+
 qc_values: [15, 20, 30]
 kmer_values: [21, 33, 55]
 reads_dir: "data/reads"

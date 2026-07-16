@@ -812,9 +812,9 @@ profiles {
 ]
 
 #place(
-  top + right,
+  bottom + right,
   dx: -1.5em,
-  dy: 3.5em,
+  dy: -0.5em,
 )[
   #tiaoma.barcode(
     "https://forms.gle/2Sj2PC2qBw4nhnJYA",

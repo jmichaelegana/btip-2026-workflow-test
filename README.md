@@ -119,11 +119,15 @@ Results land in `results/snakemake/q{value}_k{value}/`.
 # Local run
 pixi run nextflow run nextflow/main.nf -profile local
 
-# HPC / SLURM run (CFB cluster, BTIP reservation)
+# HPC / SLURM — intern BTIP reservation
 pixi run nextflow run nextflow/main.nf -profile slurm
 
-# HPC with your own SLURM account (edit nextflow.config or add a profile)
-pixi run nextflow run nextflow/main.nf -profile slurm_jcegana
+# HPC with your own SLURM account — add a profile to nextflow.config:
+#   yourname {
+#       process { executor = 'slurm'; clusterOptions = '--account=abc --partition=xyz' }
+#       executor { queueSize = 10 }
+#   }
+# then: pixi run nextflow run nextflow/main.nf -profile yourname
 
 # Resume after interruption
 pixi run nextflow run nextflow/main.nf -profile local -resume
@@ -138,7 +142,7 @@ Results land in `results/nextflow/q{value}_k{value}/`.
 **What Nextflow gives you:**
 - Channel cartesian product: `qc_ch.combine(kmer_ch)` = all 9 combos
 - `-resume`: cached processes skip re-computation
-- `-profile slurm`: native SLURM integration — same pipeline, one config line
+- `-profile slurm`: native SLURM integration — interns use the BTIP reservation; add your own profile for personal use (see code block above)
 - `publishDir`: clean output per parameter combo
 - Built-in reports: DAG (`dag.svg`), timeline (`timeline.html`), execution report (`report.html`) — all in `results/nextflow/`
 - View the DAG: `pixi run dag-nextflow` or open `results/nextflow/dag.svg`

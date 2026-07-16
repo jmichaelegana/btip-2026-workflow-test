@@ -51,6 +51,10 @@ pixi run nextflow run nextflow/main.nf -profile local
 # Test Nextflow resume
 # Ctrl-c during ASSEMBLE, then:
 pixi run nextflow run nextflow/main.nf -profile local -resume
+
+# Test Nextflow SLURM config (dry-run — no actual submission)
+pixi run nextflow config nextflow/main.nf -profile slurm
+pixi run nextflow config nextflow/main.nf -profile slurm_jcegana
 ```
 
 ### 2. Common Failures and Fixes
@@ -121,7 +125,16 @@ pixi run snakemake -s snakemake/Snakefile --cores 2 --rerun-incomplete  # resume
 === NEXTFLOW ===
 pixi run nextflow run nextflow/main.nf -profile local             # full run
 pixi run nextflow run nextflow/main.nf -profile local -resume     # resume
-pixi run nextflow run nextflow/main.nf -profile slurm             # HPC/SLURM (CFB cluster)
+pixi run nextflow run nextflow/main.nf -profile slurm             # interns — BTIP reservation
+pixi run nextflow run nextflow/main.nf -profile slurm_jcegana     # instructor — personal account
+
+=== CUSTOM SLURM PROFILE (interns) ===
+# To use your own SLURM account, add a profile to nextflow/nextflow.config:
+#   yourname {
+#       process { executor = 'slurm'; clusterOptions = '--account=abc --partition=xyz' }
+#       executor { queueSize = 10 }
+#   }
+# Then run: pixi run nextflow run main.nf -profile yourname
 ```
 
 ---
@@ -162,7 +175,7 @@ pixi run nextflow run nextflow/main.nf -profile slurm             # HPC/SLURM (C
 | "This seems complicated for 9 runs." | "It is. The point isn't 9 — it's 90. Or 900. The bash approach breaks at 9. The workflow manager doesn't break at 900." |
 | "Snakemake or Nextflow?" | "Snakemake if your team knows Python. Nextflow if you need cloud-native scale. Both are fine. Both are better than bash loops." |
 | "Do I need to learn both?" | "Pick one. The concepts transfer. If you learn Snakemake first, Nextflow takes a day to pick up." |
-| "Can I run this on the HPC?" | "Yes — `-profile slurm`. Nextflow submits jobs to SLURM automatically. No code changes needed. That's slide #15." |
+| "Can I run this on the HPC?" | "Yes — `-profile slurm`. Nextflow submits jobs to SLURM automatically. No code changes needed. That's slide #15. After the BTIP reservation expires, add your own profile to `nextflow.config` — see the cheat sheet." |
 | "What else can these tools do?" | "Check the extended cheat sheet and slide #20 — containers, nf-core, cloud executors, checkpoint rules. We barely scratched the surface." |
 
 ### Tactical Notes
